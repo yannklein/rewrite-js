@@ -41,12 +41,36 @@ Array.prototype.yconcat = function() {
 Array.prototype.ycopyWithin = function(to, fromStart, fromEnd) {
   const originalArray = this;
   const tmpArray = [];
-  if (arguments.length === 2) {
-    fromEnd = originalArray.length;
-  } else if (arguments.length === 1) {
-    fromStart = 0;
-    fromEnd = originalArray.length - to;
+
+  // edge cases to
+  if (to >= originalArray.length) {
+    return originalArray;
+  } else if (to < -originalArray.length) {
+    to = 0;
+  } else if (to < 0) {
+    to += originalArray.length;
   }
+
+  // edge cases fromStart
+  if (fromStart >= originalArray.length) {
+    return originalArray;
+  } else if (fromStart === undefined || fromStart < -originalArray.length) {
+    fromStart = 0;
+  } else if (fromStart <  0) {
+    fromStart += originalArray.length;
+  }
+
+  // edge cases fromEnd
+  if (fromEnd >= originalArray.length) {
+    return originalArray;
+  } else if ( fromEnd < -originalArray.length) {
+    fromEnd = 0;
+  } else if (fromEnd < 0) {
+    fromEnd += originalArray.length;
+  } else if (fromEnd === undefined) {
+    fromEnd = arguments.length === 2 ? originalArray.length : originalArray.length - to;
+  }
+
   for (let index = 0; index < (fromEnd - fromStart); index++) {
     tmpArray[to + index] = originalArray[fromStart + index];
   }
@@ -57,10 +81,3 @@ Array.prototype.ycopyWithin = function(to, fromStart, fromEnd) {
   }
   return originalArray;
 }
-
-// const arr = [1, 2].yconcat([3, , 5])
-// console.log(arr);
-// console.log(arr[3]);
-// console.log([1,,2]);
-// arr[6] = ""
-// console.log(arr);

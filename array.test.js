@@ -111,5 +111,12 @@ describe('Array methods', () => {
       const actual = array.ycopyWithin(1)
       expect(expected).toEqual(actual);
     });
+
+    test('should copy to index -2 all elements from index 0 to the end with arg (-2)', () => {
+      const array = [1,2,3,4,5,6];
+      const expected = [1,2,3,4,1,2];
+      const actual = array.ycopyWithin(-2)
+      expect(expected).toEqual(actual);
+    });
   });
 });
