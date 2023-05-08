@@ -1,0 +1,14 @@
+{
+  "name": "rewrite-js",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:yannklein/rewrite-js.git",
+  "author": "Yann Klein <yann.klein@me.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "jest": "^29.5.0"
+  },
+  "scripts": {
+    "test": "jest --silent=false"
+  }
+}
