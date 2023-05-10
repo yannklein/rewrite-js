@@ -215,6 +215,32 @@ describe('Array methods', () => {
       expect(someFunction).toHaveBeenNthCalledWith(1, "[1,2,3][0] -> 1");
       expect(someFunction).toHaveBeenNthCalledWith(2, "[1,2][1] -> 2");
     });
+
+    test('original array elements can be removed by callback function and amount of iteration does change', () => {
+      const array = [1,2,3,4];
+      const someFunction = jest.fn();
+      const changeArray = (elem, index, arr) => {
+        arr.pop();
+        someFunction(`[${arr}][${index}] -> ${elem}`);
+        return elem < 4;
+      };
+      array.yevery(changeArray);
+      
+      expect(someFunction).toHaveBeenNthCalledWith(1, "[1,2,3][0] -> 1");
+      expect(someFunction).toHaveBeenNthCalledWith(2, "[1,2][1] -> 2");
+    });
+
+    test('the callback function\'s this become takes the value of the method 2nd arg', () => {
+      const array = [1,2,3,4];
+      const someFunction = jest.fn();
+      const conditionFct = function (elem) {
+        someFunction(this);
+        return elem < 4;
+      };
+      array.yevery(conditionFct, {some: "value"});
+      
+      expect(someFunction).toHaveBeenNthCalledWith(1, {some: "value"});
+    });
   });
 
   describe('#yfill', () => {
@@ -252,6 +278,32 @@ describe('Array methods', () => {
       expect([1, 2, 3].yfill(4, NaN, NaN)).toEqual([1, 2, 3]);
       expect([1, 2, 3].yfill(4, 3, 5)).toEqual([1, 2, 3]);
       expect(Array(3).yfill(4)).toEqual([4, 4, 4]);
+    });
+  });
+
+  describe('#yfind', () => {
+    test('should find first array element making the callback return true', () => {
+      const array = [5, 12, 8, 130, 44];
+      const actual = array.yfind(element => element > 10);
+      expect(actual).toBe(12);
+    });
+
+    test('should return undefined if callback never returns true', () => {
+      const array = [5, 12, 8, 130, 44];
+      const actual = array.yfind(element => element > 1000);
+      expect(actual).toBe(undefined);
+    });
+
+    test('the callback function\'s this become takes the value of the method 2nd arg', () => {
+      const array = [1,2,3,4];
+      const someFunction = jest.fn();
+      const conditionFct = function (elem) {
+        someFunction(this);
+        return elem < 2;
+      };
+      array.yfind(conditionFct, {some: "value"});
+      
+      expect(someFunction).toHaveBeenNthCalledWith(1, {some: "value"});
     });
   });
 });

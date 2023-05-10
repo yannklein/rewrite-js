@@ -90,10 +90,10 @@ Array.prototype.yentries = function() {
 }
 
 Array.prototype.yevery = function(callbackFct, thisArg) {
-  const originalArray = thisArg || this;
+  const originalArray = this;
   for (let index = 0; index < originalArray.length; index++) {
     const element = originalArray[index];
-    const result = callbackFct(element, index, originalArray);
+    const result = callbackFct.bind(thisArg || this)(element, index, originalArray);
     if (!result) {
       return false;
     }
@@ -117,4 +117,15 @@ Array.prototype.yfill = function(value, start, end) {
     originalArray[index] = value;
   }
   return originalArray;
+}
+
+Array.prototype.yfind = function(callbackFct, thisArg) {
+  const originalArray = this;
+  for (let index = 0; index < originalArray.length; index++) {
+    const element = originalArray[index];
+    const result = callbackFct.bind(thisArg || this)(element, index, originalArray);
+    if (result) {
+      return element;
+    }
+  }
 }
