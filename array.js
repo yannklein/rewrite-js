@@ -100,3 +100,21 @@ Array.prototype.yevery = function(callbackFct, thisArg) {
   }
   return true;
 }
+
+Array.prototype.yfill = function(value, start, end) {
+  const originalArray = this;
+  if (start === undefined || start < -originalArray.length) {
+    start = 0;
+  } else if (start < 0) {
+    start += originalArray.length;
+  }
+  if (end === undefined || end >= originalArray.length) {
+    end = originalArray.length;
+  } else if (end < 0) {
+    end += originalArray.length;
+  }
+  for (let index = start; index < end; index++) {
+    originalArray[index] = value;
+  }
+  return originalArray;
+}

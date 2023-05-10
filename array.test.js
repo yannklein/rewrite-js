@@ -216,5 +216,43 @@ describe('Array methods', () => {
       expect(someFunction).toHaveBeenNthCalledWith(2, "[1,2][1] -> 2");
     });
   });
+
+  describe('#yfill', () => {
+    test('fill with 0 from position 2 until position 4', () => {
+      const array = [1, 2, 3, 4];
+      const actual = array.yfill(0, 2, 4);
+      const expected = [1, 2, 0, 0];
+      expect(actual).toBe(array);
+      expect(actual).toEqual(expected);
+    });
+
+    test('fill with 5 from position 1', () => {
+      const array = [1, 2, 3, 4];
+      const actual = array.yfill(5, 1);
+      const expected = [1, 5, 5, 5];
+      expect(actual).toBe(array);
+      expect(actual).toEqual(expected);
+    });
+
+    test('fill everything with 6', () => {
+      const array = [1, 2, 3, 4];
+      const actual = array.yfill(6);
+      const expected = [6, 6, 6, 6];
+      expect(actual).toBe(array);
+      expect(actual).toEqual(expected);
+    });
+
+    test('should work on negative args edge cases', () => {
+      expect([1, 2, 3].yfill(4)).toEqual([4, 4, 4]);
+      expect([1, 2, 3].yfill(4, 1)).toEqual([1, 4, 4]);
+      expect([1, 2, 3].yfill(4, 1, 2)).toEqual([1, 4, 3]);
+      expect([1, 2, 3].yfill(4, 1, 1)).toEqual([1, 2, 3]);
+      expect([1, 2, 3].yfill(4, 3, 3)).toEqual([1, 2, 3]);
+      expect([1, 2, 3].yfill(4, -3, -2)).toEqual([4, 2, 3]);
+      expect([1, 2, 3].yfill(4, NaN, NaN)).toEqual([1, 2, 3]);
+      expect([1, 2, 3].yfill(4, 3, 5)).toEqual([1, 2, 3]);
+      expect(Array(3).yfill(4)).toEqual([4, 4, 4]);
+    });
+  });
 });
 
