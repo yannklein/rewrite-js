@@ -1,3 +1,5 @@
+const Iterator = require("./iterator"); 
+
 Array.prototype.ymap = function (callback) {
   const originalArray = this;
   const newArray = [];
@@ -85,26 +87,6 @@ Array.prototype.ycopyWithin = function(to, fromStart, fromEnd) {
 Array.prototype.yentries = function() {
   const originalArray = this;
 
-  const IteratorProto = {
-    next() {
-      const currentCounter = this.counter;
-      const currentElement = this.array[currentCounter];
-      this.counter = this.counter + 1;
-      return {
-        value: [currentCounter, currentElement], 
-        done: currentCounter === this.array.length};
-    },
-    [Symbol.iterator]() {
-      return this;
-    }
-  }
-
-  function Iterator(array) {
-    this.counter = 0;
-    this.array = array;
-  }
-
-  Object.assign(Iterator.prototype, IteratorProto);
   const iterator = new Iterator(originalArray);
   return iterator;
 }
