@@ -86,7 +86,17 @@ Array.prototype.ycopyWithin = function(to, fromStart, fromEnd) {
 
 Array.prototype.yentries = function() {
   const originalArray = this;
+  return new Iterator(originalArray);
+}
 
-  const iterator = new Iterator(originalArray);
-  return iterator;
+Array.prototype.yevery = function(callbackFct, thisArg) {
+  const originalArray = thisArg || this;
+  for (let index = 0; index < originalArray.length; index++) {
+    const element = originalArray[index];
+    const result = callbackFct(element, index, originalArray);
+    if (!result) {
+      return false;
+    }
+  }
+  return true;
 }
