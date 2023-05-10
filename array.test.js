@@ -119,4 +119,39 @@ describe('Array methods', () => {
       expect(expected).toEqual(actual);
     });
   });
+
+  describe('#yentries', () => {
+    test('returns a new array iterator object that contains the key/value pairs for each index in the array', () => {
+      const array = [1,2,3];
+      const iterator = array.yentries();
+
+      expect(iterator.next().value).toEqual([0, 1]);
+      expect(iterator.next().value).toEqual([1, 2]);
+      expect(iterator.next().value).toEqual([2, 3]);
+    });
+
+    test('returns undefined for sparse arrays', () => {
+      const array = [1,,3];
+      const iterator = array.yentries();
+
+      expect(iterator.next().value).toEqual([0, 1]);
+      expect(iterator.next().value).toEqual([1, undefined]);
+      expect(iterator.next().value).toEqual([2, 3]);
+    });
+
+    test('can loop on the entries returned iterator', () => {
+      const someFunction = jest.fn();
+      const arrIterator = [1, 2, 3].yentries();
+      console.log(arrIterator);
+      for (const value of arrIterator) {
+        console.log(value);
+        someFunction(value);
+      }
+
+      expect(someFunction).toHaveBeenNthCalledWith(1, [0,1]);
+      expect(someFunction).toHaveBeenNthCalledWith(2, [1,2]);
+      expect(someFunction).toHaveBeenNthCalledWith(3, [2,3]);
+    });
+  });
 });
+

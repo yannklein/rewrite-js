@@ -14,4 +14,5 @@
 - a function can have more args than it as params in its definition
 - jest dummy function practice
 - concat can be used on multiple array, or even with objects
-- an array can have an empty value that is slighlty distinct from undefined
+- an array can have an empty value that is slighlty distinct from undefined (sparse array)
+- Iterators are not global object in JS
