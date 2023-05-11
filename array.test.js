@@ -191,7 +191,7 @@ describe('Array methods', () => {
       const someFunction = jest.fn();
       const changeArray = (elem, index, arr) => {
         arr.push("new");
-        console.log(`[${arr}][${index}] -> ${elem}`);
+        // console.log(`[${arr}][${index}] -> ${elem}`);
         someFunction(`[${arr}][${index}] -> ${elem}`);
         return elem < 4;
       };

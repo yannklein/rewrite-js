@@ -2,14 +2,15 @@ const IteratorProto = {
   next() {
     const currentCounter = this.counter;
     const currentElement = this.array[currentCounter];
-    this.counter = this.counter + 1;
+    this.counter +=  1;
     return {
       value: [currentCounter, currentElement], 
-      done: currentCounter === this.array.length};
+      done: currentCounter === this.array.length,
+    };
   },
   [Symbol.iterator]() {
     return this;
-  }
+  },
 }
 
 function Iterator(array) {
