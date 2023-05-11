@@ -126,3 +126,15 @@ Array.prototype.yfind = function(callbackFct, thisArg) {
     }
   }
 }
+
+Array.prototype.yfindIndex = function(callbackFct, thisArg) {
+  const originalArray = this;
+  for (let index = 0; index < originalArray.length; index++) {
+    const element = originalArray[index];
+    const result = callbackFct.bind(thisArg || this)(element, index, originalArray);
+    if (result) {
+      return index;
+    }
+  }
+  return -1;
+}

@@ -307,8 +307,28 @@ describe('Array methods', () => {
     });
   });
   describe('#yfindIndex', () => {
-    test('should find first array element making the callback return true', () => {
+    test('should return the index of the first array element making the callback return true', () => {
+      const array = [5, 12, 8, 130, 44];
+      const actual = array.yfindIndex(element => element > 10);
+      expect(actual).toBe(1);
+    });
 
+    test('should return -1 if callback never returns true', () => {
+      const array = [5, 12, 8, 130, 44];
+      const actual = array.yfindIndex(element => element > 1000);
+      expect(actual).toBe(-1);
+    });
+
+    test('the callback function\'s this become takes the value of the method 2nd arg', () => {
+      const array = [1,2,3,4];
+      const someFunction = jest.fn();
+      const conditionFct = function (elem) {
+        someFunction(this);
+        return elem < 2;
+      };
+      array.yfindIndex(conditionFct, {some: "value"});
+      
+      expect(someFunction).toHaveBeenNthCalledWith(1, {some: "value"});
     });
   });
 });
