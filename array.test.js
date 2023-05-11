@@ -306,5 +306,10 @@ describe('Array methods', () => {
       expect(someFunction).toHaveBeenNthCalledWith(1, {some: "value"});
     });
   });
+  describe('#yfindIndex', () => {
+    test('should find first array element making the callback return true', () => {
+
+    });
+  });
 });
 

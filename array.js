@@ -40,7 +40,7 @@ Array.prototype.yconcat = function() {
   return newArray;
 }
 
-Array.prototype.ycopyWithin = function(to, fromStart, fromEnd) {
+Array.prototype.ycopyWithin = function(to, fromStart = 0, fromEnd = this.length) {
   const originalArray = this;
   const tmpArray = [];
 
@@ -56,27 +56,24 @@ Array.prototype.ycopyWithin = function(to, fromStart, fromEnd) {
   // edge cases fromStart
   if (fromStart >= originalArray.length) {
     return originalArray;
-  } else if (fromStart === undefined || fromStart < -originalArray.length) {
-    fromStart = 0;
   } else if (fromStart <  0) {
     fromStart += originalArray.length;
-  }
+  } else if (fromStart < -originalArray.length) {
+    fromStart = 0;
+  } 
 
   // edge cases fromEnd
-  if (fromEnd >= originalArray.length) {
-    return originalArray;
-  } else if ( fromEnd < -originalArray.length) {
+  if ( fromEnd < -originalArray.length) {
     fromEnd = 0;
   } else if (fromEnd < 0) {
     fromEnd += originalArray.length;
-  } else if (fromEnd === undefined) {
-    fromEnd = arguments.length === 2 ? originalArray.length : originalArray.length - to;
   }
 
   for (let index = 0; index < (fromEnd - fromStart); index++) {
     tmpArray[to + index] = originalArray[fromStart + index];
   }
-  for (let index = 0; index < tmpArray.length; index++) {
+  // iterate over original array to keep original array size and cut the additional elements for the tmp array
+  for (let index = 0; index < originalArray.length; index++) {
     if (tmpArray[index]) {
       originalArray[index] = tmpArray[index];
     }
@@ -101,14 +98,14 @@ Array.prototype.yevery = function(callbackFct, thisArg) {
   return true;
 }
 
-Array.prototype.yfill = function(value, start, end) {
+Array.prototype.yfill = function(value, start = 0 , end = this.length) {
   const originalArray = this;
-  if (start === undefined || start < -originalArray.length) {
-    start = 0;
-  } else if (start < 0) {
+  if (start < 0) {
     start += originalArray.length;
-  }
-  if (end === undefined || end >= originalArray.length) {
+  } else if (start < -originalArray.length) {
+    start = 0;
+  } 
+  if (end >= originalArray.length) {
     end = originalArray.length;
   } else if (end < 0) {
     end += originalArray.length;
