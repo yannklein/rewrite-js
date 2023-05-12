@@ -79,7 +79,7 @@ Array.prototype.ycopyWithin = function ycopyWithin(
     end += originalArray.length;
   } else if (end < -originalArray.length) {
     end = 0;
-  } 
+  }
 
   for (let index = 0; index < end - start; index += 1) {
     tmpArray[target + index] = originalArray[start + index];
