@@ -209,7 +209,7 @@ describe('Array methods', () => {
       };
       array.yevery(changeArray);
 
-      expect(someFunction).toHaveBeenNthCalledWith(1, '[1, 2, 3][0] -> 1');
+      expect(someFunction).toHaveBeenNthCalledWith(1, '[1,2,3][0] -> 1');
       expect(someFunction).toHaveBeenNthCalledWith(2, '[1,2][1] -> 2');
     });
 

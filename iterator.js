@@ -2,16 +2,16 @@ const IteratorProto = {
   next() {
     const currentCounter = this.counter;
     const currentElement = this.array[currentCounter];
-    this.counter +=  1;
+    this.counter += 1;
     return {
-      value: [currentCounter, currentElement], 
+      value: [currentCounter, currentElement],
       done: currentCounter === this.array.length,
     };
   },
   [Symbol.iterator]() {
     return this;
   },
-}
+};
 
 function Iterator(array) {
   this.counter = 0;
