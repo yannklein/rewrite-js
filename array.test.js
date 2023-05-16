@@ -391,5 +391,17 @@ describe('Array methods', () => {
       const actual = array.yflat(Infinity);
       expect(actual).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
     });
+
+    test('falt work with array-like non array objects', () => {
+      const arrayLike = {
+        length: 3,
+        0: [1, 2],
+        // Array-like objects aren't flattened
+        1: { length: 2, 0: 3, 1: 4 },
+        2: 5,
+      };
+      const actual = Array.prototype.flat.call(arrayLike);
+      expect(actual).toEqual([1, 2, { 0: 3, 1: 4, length: 2 }, 5]);
+    });
   });
 });
