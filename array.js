@@ -200,3 +200,20 @@ Array.prototype.yfindLastIndex = function yfindLastIndex(callbackFct, thisArg) {
   }
   return foundIndex;
 };
+
+Array.prototype.yflat = function yflat(depth = 1) {
+  const originalArray = this;
+  const flatten = (array, depthLvl) => {
+    const newArray = [];
+    for (let index = 0; index < array.length; index += 1) {
+      const element = array[index];
+      if (typeof element === 'object' && depthLvl > 0) {
+        newArray.yconcat(flatten(element, depthLvl - 1));
+      } else {
+        newArray[newArray.length] = element;
+      }
+    }
+    return newArray;
+  };
+  return flatten(originalArray, depth);
+};

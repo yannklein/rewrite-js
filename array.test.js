@@ -360,4 +360,36 @@ describe('Array methods', () => {
       expect(someFunction).toHaveBeenNthCalledWith(1, { some: 'value' });
     });
   });
+
+  describe('#yflat', () => {
+    test('flat on simple nested array without args returns a flat array', () => {
+      const array = [1, 2, [3, 4]];
+      const actual = array.yflat();
+      expect(actual).toEqual([1, 2, 3, 4]);
+    });
+
+    test('flat returns a shallow copy that contains the same elements as the ones from the original array', () => {
+      const array = [1, 2, [3, 4]];
+      const actual = array.yflat();
+      expect(actual).not.toBe(array);
+    });
+
+    test('flat on double nested array without args returns a simple nested array', () => {
+      const array = [1, 2, [3, 4, [5, 6]]];
+      const actual = array.yflat();
+      expect(actual).toEqual([1, 2, 3, 4, [5, 6]]);
+    });
+
+    test('flat on double nested array with 2 as arg returns a flat array', () => {
+      const array = [1, 2, [3, 4, [5, 6]]];
+      const actual = array.yflat(2);
+      expect(actual).toEqual([1, 2, 3, 4, 5, 6]);
+    });
+
+    test('flat on multi nested array with Infinity as arg returns a flat array', () => {
+      const array = [1, 2, [3, 4, [5, 6, [7, 8, [9, 10]]]]];
+      const actual = array.yflat(Infinity);
+      expect(actual).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
+    });
+  });
 });
