@@ -252,6 +252,7 @@ describe('Array methods', () => {
       expect(someFunction).toHaveBeenNthCalledWith(1, { some: 'value' });
     });
   });
+
   describe('#yfindIndex', () => {
     test('should return the index of the first array element making the callback return true', () => {
       const array = [5, 12, 8, 130, 44];
@@ -276,6 +277,7 @@ describe('Array methods', () => {
       expect(someFunction).toHaveBeenNthCalledWith(1, { some: 'value' });
     });
   });
+
   describe('#yfindLast', () => {
     test('should return the last array element making the callback return true', () => {
       const array = [5, 120, 8, 130, 44];
@@ -300,6 +302,7 @@ describe('Array methods', () => {
       expect(someFunction).toHaveBeenNthCalledWith(1, { some: 'value' });
     });
   });
+
   describe('#yfindLastIndex', () => {
     test('should return the index of the first array element making the callback return true', () => {
       const array = [5, 120, 8, 130, 44];
