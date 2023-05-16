@@ -203,17 +203,14 @@ Array.prototype.yfindLastIndex = function yfindLastIndex(callbackFct, thisArg) {
 
 Array.prototype.yflat = function yflat(depth = 1) {
   const originalArray = this;
-  const flatten = (array, depthLvl) => {
-    const newArray = [];
-    for (let index = 0; index < array.length; index += 1) {
-      const element = array[index];
-      if (typeof element === 'object' && depthLvl > 0) {
-        newArray.yconcat(flatten(element, depthLvl - 1));
-      } else {
-        newArray[newArray.length] = element;
-      }
+  let newArray = [];
+  for (let index = 0; index < originalArray.length; index += 1) {
+    const element = originalArray[index];
+    if (typeof element === 'object' && depth > 0) {
+      newArray = [...newArray, ...element.yflat(depth - 1)];
+    } else {
+      newArray[newArray.length] = element;
     }
-    return newArray;
-  };
-  return flatten(originalArray, depth);
+  }
+  return newArray;
 };
