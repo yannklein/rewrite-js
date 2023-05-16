@@ -9,42 +9,6 @@ describe('Array methods', () => {
     });
   });
 
-  describe('#yforEach', () => {
-    test('someFunction 1 then 2 then 3 when passed item => someFunction(item)', () => {
-      const someFunction = jest.fn();
-      [1, 2, 3].yforEach((item) => someFunction(item));
-
-      expect(someFunction).toHaveBeenNthCalledWith(1, 1);
-      expect(someFunction).toHaveBeenNthCalledWith(2, 2);
-      expect(someFunction).toHaveBeenNthCalledWith(3, 3);
-    });
-
-    test('accepts a function with one argument (item)', () => {
-      const someFunction = jest.fn();
-      [1, 2, 3].yforEach((item) => someFunction(item));
-
-      expect(someFunction.mock.calls).toHaveLength(3);
-    });
-
-    test('accepts a function with two arguments (item and index)', () => {
-      const someFunction = jest.fn();
-      [1, 2, 3].yforEach((item, index) => someFunction(item, index));
-
-      expect(someFunction).toHaveBeenNthCalledWith(1, 1, 0);
-      expect(someFunction).toHaveBeenNthCalledWith(2, 2, 1);
-      expect(someFunction).toHaveBeenNthCalledWith(3, 3, 2);
-    });
-
-    test('accepts a function with three arguments (item, index and array)', () => {
-      const someFunction = jest.fn();
-      [1, 2, 3].yforEach((item, index, arr) => someFunction(item, index, arr));
-
-      expect(someFunction).toHaveBeenNthCalledWith(1, 1, 0, [1, 2, 3]);
-      expect(someFunction).toHaveBeenNthCalledWith(2, 2, 1, [1, 2, 3]);
-      expect(someFunction).toHaveBeenNthCalledWith(3, 3, 2, [1, 2, 3]);
-    });
-  });
-
   describe('#yat', () => {
     test('returns 2 when called on [1, 2, 3] with argument 1', () => {
       const expected = 2;
@@ -435,11 +399,69 @@ describe('Array methods', () => {
       const changeArray = (elem, index, arr) => {
         // eslint-disable-next-line no-param-reassign
         arr[index + 1] -= 1;
-        console.log(arr);
         someFunction(`[${arr}][${index}] -> ${elem}`);
         return [elem];
       };
       array.yflatMap(changeArray);
+      expect(someFunction).toHaveBeenNthCalledWith(1, '[1,1,1][0] -> 1');
+      expect(someFunction).toHaveBeenNthCalledWith(2, '[1,1,0][1] -> 1');
+    });
+  });
+
+  describe('#yforEach', () => {
+    test('someFunction 1 then 2 then 3 when passed item => someFunction(item)', () => {
+      const someFunction = jest.fn();
+      [1, 2, 3].yforEach((item) => someFunction(item));
+
+      expect(someFunction).toHaveBeenNthCalledWith(1, 1);
+      expect(someFunction).toHaveBeenNthCalledWith(2, 2);
+      expect(someFunction).toHaveBeenNthCalledWith(3, 3);
+    });
+
+    test('accepts a function with one argument (item)', () => {
+      const someFunction = jest.fn();
+      [1, 2, 3].yforEach((item) => someFunction(item));
+
+      expect(someFunction.mock.calls).toHaveLength(3);
+    });
+
+    test('accepts a function with two arguments (item and index)', () => {
+      const someFunction = jest.fn();
+      [1, 2, 3].yforEach((item, index) => someFunction(item, index));
+
+      expect(someFunction).toHaveBeenNthCalledWith(1, 1, 0);
+      expect(someFunction).toHaveBeenNthCalledWith(2, 2, 1);
+      expect(someFunction).toHaveBeenNthCalledWith(3, 3, 2);
+    });
+
+    test('accepts a function with three arguments (item, index and array)', () => {
+      const someFunction = jest.fn();
+      [1, 2, 3].yforEach((item, index, arr) => someFunction(item, index, arr));
+
+      expect(someFunction).toHaveBeenNthCalledWith(1, 1, 0, [1, 2, 3]);
+      expect(someFunction).toHaveBeenNthCalledWith(2, 2, 1, [1, 2, 3]);
+      expect(someFunction).toHaveBeenNthCalledWith(3, 3, 2, [1, 2, 3]);
+    });
+
+    test('the callback function\'s this takes the value of the method 2nd arg if present', () => {
+      const array = [1, 2, 1];
+      const someFunction = jest.fn();
+      function forEachFct() {
+        someFunction(this);
+      }
+      array.yforEach(forEachFct, { some: 'value' });
+      expect(someFunction).toHaveBeenNthCalledWith(1, { some: 'value' });
+    });
+
+    test('original array elements can be updated by callback function', () => {
+      const array = [1, 2, 1];
+      const someFunction = jest.fn();
+      const changeArray = (elem, index, arr) => {
+        // eslint-disable-next-line no-param-reassign
+        arr[index + 1] -= 1;
+        someFunction(`[${arr}][${index}] -> ${elem}`);
+      };
+      array.yforEach(changeArray);
       expect(someFunction).toHaveBeenNthCalledWith(1, '[1,1,1][0] -> 1');
       expect(someFunction).toHaveBeenNthCalledWith(2, '[1,1,0][1] -> 1');
     });

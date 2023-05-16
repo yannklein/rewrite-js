@@ -11,14 +11,6 @@ Array.prototype.ymap = function ymap(callback) {
   return newArray;
 };
 
-Array.prototype.yforEach = function yforEach(callback) {
-  const originalArray = this;
-  for (let index = 0; index < originalArray.length; index += 1) {
-    const element = originalArray[index];
-    callback(element, index, originalArray);
-  }
-};
-
 Array.prototype.yat = function yat(index) {
   const originalArray = this;
   return index >= 0
@@ -238,4 +230,17 @@ Array.prototype.yflatMap = function yflatMap(callback, thisArg) {
     }
   }
   return newArray;
+};
+
+Array.prototype.yforEach = function yforEach(callback, thisArg) {
+  const originalArray = this;
+  const originalLength = originalArray.length;
+  for (let index = 0; index < originalLength; index += 1) {
+    const element = originalArray[index];
+    callback.bind(thisArg || this)(
+      element,
+      index,
+      originalArray,
+    );
+  }
 };
