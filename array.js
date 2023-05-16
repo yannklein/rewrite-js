@@ -101,7 +101,8 @@ Array.prototype.yentries = function yentries() {
 
 Array.prototype.yevery = function yevery(callbackFct, thisArg) {
   const originalArray = this;
-  for (let index = 0; index < originalArray.length; index += 1) {
+  const originalLength = this.length;
+  for (let index = 0; index < originalLength; index += 1) {
     const element = originalArray[index];
     const result = callbackFct.bind(thisArg || this)(
       element,
@@ -137,7 +138,8 @@ Array.prototype.yfill = function yfill(value, start = 0, end = this.length) {
 
 Array.prototype.yfind = function yfind(callbackFct, thisArg) {
   const originalArray = this;
-  for (let index = 0; index < originalArray.length; index += 1) {
+  const originalLength = this.length;
+  for (let index = 0; index < originalLength; index += 1) {
     const element = originalArray[index];
     const result = callbackFct.bind(thisArg || this)(
       element,
@@ -153,7 +155,8 @@ Array.prototype.yfind = function yfind(callbackFct, thisArg) {
 
 Array.prototype.yfindIndex = function yfindIndex(callbackFct, thisArg) {
   const originalArray = this;
-  for (let index = 0; index < originalArray.length; index += 1) {
+  const originalLength = this.length;
+  for (let index = 0; index < originalLength; index += 1) {
     const element = originalArray[index];
     const result = callbackFct.bind(thisArg || this)(
       element,
@@ -169,8 +172,9 @@ Array.prototype.yfindIndex = function yfindIndex(callbackFct, thisArg) {
 
 Array.prototype.yfindLast = function yfindLast(callbackFct, thisArg) {
   const originalArray = this;
+  const originalLength = this.length;
   let found;
-  for (let index = 0; index < originalArray.length; index += 1) {
+  for (let index = 0; index < originalLength; index += 1) {
     const element = originalArray[index];
     const result = callbackFct.bind(thisArg || this)(
       element,
@@ -186,8 +190,9 @@ Array.prototype.yfindLast = function yfindLast(callbackFct, thisArg) {
 
 Array.prototype.yfindLastIndex = function yfindLastIndex(callbackFct, thisArg) {
   const originalArray = this;
+  const originalLength = this.length;
   let foundIndex = -1;
-  for (let index = 0; index < originalArray.length; index += 1) {
+  for (let index = 0; index < originalLength; index += 1) {
     const element = originalArray[index];
     const result = callbackFct.bind(thisArg || this)(
       element,
@@ -210,6 +215,26 @@ Array.prototype.yflat = function yflat(depth = 1) {
       newArray = [...newArray, ...element.yflat(depth - 1)];
     } else {
       newArray[newArray.length] = element;
+    }
+  }
+  return newArray;
+};
+
+Array.prototype.yflatMap = function yflatMap(callback, thisArg) {
+  const originalArray = this;
+  const originalLength = originalArray.length;
+  let newArray = [];
+  for (let index = 0; index < originalLength; index += 1) {
+    const element = originalArray[index];
+    const newElement = callback.bind(thisArg || this)(
+      element,
+      index,
+      originalArray,
+    );
+    if (typeof newElement === 'object') {
+      newArray = [...newArray, ...newElement];
+    } else {
+      newArray[newArray.length] = newElement;
     }
   }
   return newArray;

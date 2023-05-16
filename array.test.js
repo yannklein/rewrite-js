@@ -277,7 +277,7 @@ describe('Array methods', () => {
       expect(actual).toBe(undefined);
     });
 
-    test('the callback function\'s this become takes the value of the method 2nd arg', () => {
+    test('the callback function\'s this takes the value of the method 2nd arg if present', () => {
       const array = [1, 2, 3, 4];
       const someFunction = jest.fn();
       const conditionFct = function conditionFct(elem) {
@@ -374,25 +374,25 @@ describe('Array methods', () => {
       expect(actual).not.toBe(array);
     });
 
-    test('flat on double nested array without args returns a simple nested array', () => {
+    test('call on double nested array without args returns a simple nested array', () => {
       const array = [1, 2, [3, 4, [5, 6]]];
       const actual = array.yflat();
       expect(actual).toEqual([1, 2, 3, 4, [5, 6]]);
     });
 
-    test('flat on double nested array with 2 as arg returns a flat array', () => {
+    test('call on double nested array with 2 as arg returns a flat array', () => {
       const array = [1, 2, [3, 4, [5, 6]]];
       const actual = array.yflat(2);
       expect(actual).toEqual([1, 2, 3, 4, 5, 6]);
     });
 
-    test('flat on multi nested array with Infinity as arg returns a flat array', () => {
+    test('call on multi nested array with Infinity as arg returns a flat array', () => {
       const array = [1, 2, [3, 4, [5, 6, [7, 8, [9, 10]]]]];
       const actual = array.yflat(Infinity);
       expect(actual).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
     });
 
-    test('falt work with array-like non array objects', () => {
+    test('works with array-like non array objects', () => {
       const arrayLike = {
         length: 3,
         0: [1, 2],
@@ -402,6 +402,46 @@ describe('Array methods', () => {
       };
       const actual = Array.prototype.flat.call(arrayLike);
       expect(actual).toEqual([1, 2, { 0: 3, 1: 4, length: 2 }, 5]);
+    });
+  });
+
+  describe('#yflatMap', () => {
+    test('return a mapped then flatten new array', () => {
+      const array = [1, 2, 1];
+      const someFunction = jest.fn((num) => (num === 2 ? [2, 2] : 1));
+      const actual = array.yflatMap(someFunction);
+      expect(actual).toEqual([1, 2, 2, 1]);
+    });
+    test('return a copy of the original array, doesn\'t modify it', () => {
+      const array = [1, 2, 1];
+      const someFunction = jest.fn((num) => (num === 2 ? [2, 2] : 1));
+      const actual = array.yflatMap(someFunction);
+      expect(actual).not.toBe(array);
+    });
+    test('the callback function\'s this takes the value of the method 2nd arg if present', () => {
+      const array = [1, 2, 1];
+      const someFunction = jest.fn();
+      const conditionFct = function conditionFct(elem) {
+        someFunction(this);
+        return [elem];
+      };
+      array.yflatMap(conditionFct, { some: 'value' });
+      expect(someFunction).toHaveBeenNthCalledWith(1, { some: 'value' });
+    });
+
+    test('original array elements can be updated by callback function', () => {
+      const array = [1, 2, 1];
+      const someFunction = jest.fn();
+      const changeArray = (elem, index, arr) => {
+        // eslint-disable-next-line no-param-reassign
+        arr[index + 1] -= 1;
+        console.log(arr);
+        someFunction(`[${arr}][${index}] -> ${elem}`);
+        return [elem];
+      };
+      array.yflatMap(changeArray);
+      expect(someFunction).toHaveBeenNthCalledWith(1, '[1,1,1][0] -> 1');
+      expect(someFunction).toHaveBeenNthCalledWith(2, '[1,1,0][1] -> 1');
     });
   });
 });
