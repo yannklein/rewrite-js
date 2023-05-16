@@ -312,4 +312,28 @@ describe('Array methods', () => {
       expect(someFunction).toHaveBeenNthCalledWith(1, { some: 'value' });
     });
   });
+  describe('#yfindLast', () => {
+    test('should return the last array element making the callback return true', () => {
+      const array = [5, 120, 8, 130, 44];
+      const actual = array.yfindLast((element) => element > 100);
+      expect(actual).toBe(130);
+    });
+
+    test('should return undefined if callback never returns true', () => {
+      const array = [5, 120, 8, 130, 44];
+      const actual = array.yfindLast((element) => element > 1000);
+      expect(actual).toBe(undefined);
+    });
+
+    test('the callback function\'s this become takes the value of the method 2nd arg', () => {
+      const array = [1, 2, 3, 4];
+      const someFunction = jest.fn();
+      const conditionFct = function conditionFct(elem) {
+        someFunction(this);
+        return elem < 2;
+      };
+      array.yfindLast(conditionFct, { some: 'value' });
+      expect(someFunction).toHaveBeenNthCalledWith(1, { some: 'value' });
+    });
+  });
 });
