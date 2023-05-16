@@ -183,3 +183,20 @@ Array.prototype.yfindLast = function yfindLast(callbackFct, thisArg) {
   }
   return found;
 };
+
+Array.prototype.yfindLastIndex = function yfindLastIndex(callbackFct, thisArg) {
+  const originalArray = this;
+  let foundIndex = -1;
+  for (let index = 0; index < originalArray.length; index += 1) {
+    const element = originalArray[index];
+    const result = callbackFct.bind(thisArg || this)(
+      element,
+      index,
+      originalArray,
+    );
+    if (result) {
+      foundIndex = index;
+    }
+  }
+  return foundIndex;
+};
