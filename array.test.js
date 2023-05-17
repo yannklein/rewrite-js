@@ -490,7 +490,6 @@ describe('Array methods', () => {
 
   describe('#yfromAsync', () => {
     test('create an array from a async iterable', async () => {
-      // const someFunction = jest.fn();
       const asyncIterable = (async function* asyncIterable() {
         for (let i = 0; i < 5; i += 1) {
           // eslint-disable-next-line no-await-in-loop, no-promise-executor-return
@@ -500,6 +499,14 @@ describe('Array methods', () => {
       }());
       const actual = await Array.yfromAsync(asyncIterable);
       await expect(actual).toEqual([0, 1, 2, 3, 4]);
+    });
+    test('create an array from a sync iterable', async () => {
+      const map = new Map([
+        [1, 2],
+        [3, 4],
+      ]);
+      const actual = await Array.yfromAsync(map);
+      await expect(actual).toEqual([[1, 2], [3, 4]]);
     });
   });
 });
