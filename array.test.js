@@ -469,4 +469,22 @@ describe('Array methods', () => {
       expect(someFunction).toHaveBeenNthCalledWith(2, '[1,1,0][1] -> 1');
     });
   });
+
+  describe('#yfrom', () => {
+    test('create a shallow copy array from an array or a array-like object', () => {
+      const actualFromString = Array.yfrom('foo');
+      const array = ['f', 'o', 'o'];
+      const actualFromArray = Array.yfrom(array);
+      expect(actualFromString).toEqual(['f', 'o', 'o']);
+      expect(actualFromArray).toEqual(['f', 'o', 'o']);
+      expect(actualFromArray).not.toBe(array);
+    });
+
+    test('create a shallow copy array from an array modify by a mapping callback function (second argument)', () => {
+      const array = [1, 2, 3];
+      const actual = Array.yfrom([1, 2, 3], (x) => x + x);
+      expect(actual).toEqual([2, 4, 6]);
+      expect(actual).not.toBe(array);
+    });
+  });
 });

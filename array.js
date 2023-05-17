@@ -244,3 +244,12 @@ Array.prototype.yforEach = function yforEach(callback, thisArg) {
     );
   }
 };
+
+Array.yfrom = function yfrom(array, callbackFct = (e) => e) {
+  const newArray = [...array];
+  for (let index = 0; index < newArray.length; index += 1) {
+    const element = array[index];
+    newArray[index] = callbackFct(element, index);
+  }
+  return newArray;
+};
