@@ -253,3 +253,12 @@ Array.yfrom = function yfrom(array, callbackFct = (e) => e) {
   }
   return newArray;
 };
+
+Array.yfromAsync = async function yfromAsync(asyncIterable) {
+  const array = [];
+  // eslint-disable-next-line no-restricted-syntax
+  for await (const val of asyncIterable) {
+    array[array.length] = val;
+  }
+  return array;
+};

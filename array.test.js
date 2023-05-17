@@ -487,4 +487,19 @@ describe('Array methods', () => {
       expect(actual).not.toBe(array);
     });
   });
+
+  describe('#yfromAsync', () => {
+    test('create an array from a async iterable', async () => {
+      // const someFunction = jest.fn();
+      const asyncIterable = (async function* asyncIterable() {
+        for (let i = 0; i < 5; i += 1) {
+          // eslint-disable-next-line no-await-in-loop, no-promise-executor-return
+          await new Promise((resolve) => setTimeout(resolve, 10 * i));
+          yield i;
+        }
+      }());
+      const actual = await Array.yfromAsync(asyncIterable);
+      await expect(actual).toEqual([0, 1, 2, 3, 4]);
+    });
+  });
 });
