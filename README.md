@@ -18,3 +18,4 @@
 - Iterators are not global object in JS
 - iterative method's callback functions can change the array it is called on but the amount of iteration varies whether we add elements (amount of iteration does not change) or remove elements (amount changes)
 - findLast and findLastIndex new method avaiable from NodeJS 18
+- prixy/handlers in JS

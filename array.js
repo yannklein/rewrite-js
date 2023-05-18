@@ -262,3 +262,26 @@ Array.yfromAsync = async function yfromAsync(asyncIterable) {
   }
   return array;
 };
+
+Array.prototype.ygroup = function ygroup(callbackFct, thisArg) {
+  const originalArray = this;
+  const handler = {
+    get(target, prop) {
+      return (prop === undefined) ? [] : target[prop];
+    },
+  };
+  const groupedObjProxy = new Proxy({}, handler);
+  for (let index = 0; index < originalArray.length; index += 1) {
+    const element = originalArray[index];
+    const key = callbackFct.bind(thisArg || this)(
+      element,
+      index,
+      originalArray,
+    );
+    if (!groupedObjProxy[key]) {
+      groupedObjProxy[key] = [];
+    }
+    groupedObjProxy[key].push(element);
+  }
+  return groupedObjProxy;
+};

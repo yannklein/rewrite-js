@@ -509,4 +509,36 @@ describe('Array methods', () => {
       await expect(actual).toEqual([[1, 2], [3, 4]]);
     });
   });
+
+  describe('#ygroup', () => {
+    test('groups element according to callback fct retun', () => {
+      const inventory = [
+        { name: 'asparagus', type: 'vegetables', quantity: 5 },
+        { name: 'bananas', type: 'fruit', quantity: 0 },
+        { name: 'cherries', type: 'fruit', quantity: 5 },
+      ];
+      const expected = {
+        vegetables: [
+          { name: 'asparagus', type: 'vegetables', quantity: 5 },
+        ],
+        fruit: [
+          { name: 'bananas', type: 'fruit', quantity: 0 },
+          { name: 'cherries', type: 'fruit', quantity: 5 },
+        ],
+      };
+      const actual = inventory.ygroup(({ type }) => type);
+      expect(actual).toEqual(expected);
+    });
+    test('the callback function\'s this become takes the value of the method 2nd arg', () => {
+      const array = [1, 2, 3, 4];
+      const someFunction = jest.fn();
+      const conditionFct = function conditionFct(elem) {
+        someFunction(this);
+        return elem;
+      };
+      array.ygroup(conditionFct, { some: 'value' });
+
+      expect(someFunction).toHaveBeenCalledWith({ some: 'value' });
+    });
+  });
 });
