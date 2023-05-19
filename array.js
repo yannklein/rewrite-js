@@ -332,11 +332,28 @@ Array.prototype.yincludes = function yincludes(target, fromIndex = 0) {
   if (fromIndex >= originalArray.length) {
     return false;
   }
-  for (let index = 0; index < originalArray.length; index += 1) {
+  const start = fromIndex >= 0 ? fromIndex : originalArray.length + fromIndex;
+  for (let index = start; index < originalArray.length; index += 1) {
     const element = originalArray[index];
     if (element === target || (Number.isNaN(element) && Number.isNaN(target))) {
       return true;
     }
   }
   return false;
+};
+
+Array.prototype.yindexOf = function yindexOf(target, fromIndex = 0) {
+  const originalArray = this;
+  if (fromIndex >= originalArray.length) {
+    return -1;
+  }
+  const start = fromIndex >= 0 ? fromIndex : originalArray.length + fromIndex;
+  for (let index = start; index < originalArray.length; index += 1) {
+    const element = originalArray[index];
+    // !(index in originalArray) detects in the element of index index is an empty slot or not
+    if (target === element && (index in originalArray)) {
+      return index;
+    }
+  }
+  return -1;
 };
