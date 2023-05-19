@@ -541,4 +541,35 @@ describe('Array methods', () => {
       expect(someFunction).toHaveBeenCalledWith({ some: 'value' });
     });
   });
+
+  describe('#ygroupToMap', () => {
+    test('groups element according to callback fct retun', () => {
+      const inventory = [
+        { name: 'asparagus', type: 'vegetables', quantity: 9 },
+        { name: 'bananas', type: 'fruit', quantity: 5 },
+        { name: 'goat', type: 'meat', quantity: 23 },
+      ];
+      const expected = new Map();
+      expected.set('restock', [{ name: 'bananas', type: 'fruit', quantity: 5 }]);
+      expected.set('sufficient', [
+        { name: 'asparagus', type: 'vegetables', quantity: 9 },
+        { name: 'goat', type: 'meat', quantity: 23 },
+      ]);
+
+      const actual = inventory.ygroupToMap(({ quantity }) => (quantity < 6 ? 'restock' : 'sufficient'));
+      expect(actual).toEqual(expected);
+    });
+
+    test('the callback function\'s this become takes the value of the method 2nd arg', () => {
+      const array = [1, 2, 3, 4];
+      const someFunction = jest.fn();
+      const conditionFct = function conditionFct(elem) {
+        someFunction(this);
+        return elem;
+      };
+      array.ygroupToMap(conditionFct, { some: 'value' });
+
+      expect(someFunction).toHaveBeenCalledWith({ some: 'value' });
+    });
+  });
 });

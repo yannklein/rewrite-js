@@ -285,3 +285,44 @@ Array.prototype.ygroup = function ygroup(callbackFct, thisArg) {
   }
   return groupedObjProxy;
 };
+
+Array.prototype.ygroup = function ygroup(callbackFct, thisArg) {
+  const originalArray = this;
+  const handler = {
+    get(target, prop) {
+      return target[prop] || [];
+    },
+  };
+  const groupedObjProxy = new Proxy({}, handler);
+  for (let index = 0; index < originalArray.length; index += 1) {
+    const element = originalArray[index];
+    const key = callbackFct.bind(thisArg || this)(
+      element,
+      index,
+      originalArray,
+    );
+    // if (!groupedObjProxy[key]) {
+    //   groupedObjProxy[key] = [];
+    // }
+    groupedObjProxy[key] = [...groupedObjProxy[key], element];
+  }
+  return groupedObjProxy;
+};
+
+Array.prototype.ygroupToMap = function ygroupToMap(callbackFct, thisArg) {
+  const originalArray = this;
+  const newMap = new Map();
+  for (let index = 0; index < originalArray.length; index += 1) {
+    const element = originalArray[index];
+    const key = callbackFct.bind(thisArg || this)(
+      element,
+      index,
+      originalArray,
+    );
+    if (!newMap.has(key)) {
+      newMap.set(key, []);
+    }
+    newMap.set(key, [...newMap.get(key), element]);
+  }
+  return newMap;
+};
