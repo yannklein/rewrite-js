@@ -572,4 +572,35 @@ describe('Array methods', () => {
       expect(someFunction).toHaveBeenCalledWith({ some: 'value' });
     });
   });
+
+  describe('#yincludes', () => {
+    test('return true if element included in array else false', () => {
+      expect([1, 2, 3].yincludes(2)).toBe(true);
+      expect([1, 2, 3].yincludes(4)).toBe(false);
+      expect([1, 2, NaN].yincludes(NaN)).toBe(true);
+    });
+    test('search inclusion from a certain index in the array', () => {
+      expect([1, 2, 3].yincludes(3, -1)).toBe(true);
+    });
+    test('if second arg bigger than the array length, return false', () => {
+      expect([1, 2, 3].yincludes(3, 3)).toBe(false);
+    });
+    test('use strict equality to check if included in array', () => {
+      expect(['1', '2', '3'].yincludes(3)).toBe(false);
+    });
+    test('finds undefined on sparse arrays', () => {
+      // eslint-disable-next-line no-sparse-arrays
+      expect([1,, 3].yincludes(undefined)).toBe(true);
+    });
+    test('works on array-like', () => {
+      const arrayLike = {
+        length: 3,
+        0: 2,
+        1: 3,
+        2: 4,
+      };
+      expect(Array.prototype.yincludes.call(arrayLike, 2)).toBe(true);
+      expect(Array.prototype.yincludes.call(arrayLike, 1)).toBe(false);
+    });
+  });
 });

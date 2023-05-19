@@ -326,3 +326,17 @@ Array.prototype.ygroupToMap = function ygroupToMap(callbackFct, thisArg) {
   }
   return newMap;
 };
+
+Array.prototype.yincludes = function yincludes(target, fromIndex = 0) {
+  const originalArray = this;
+  if (fromIndex >= originalArray.length) {
+    return false;
+  }
+  for (let index = 0; index < originalArray.length; index += 1) {
+    const element = originalArray[index];
+    if (element === target || (Number.isNaN(element) && Number.isNaN(target))) {
+      return true;
+    }
+  }
+  return false;
+};
