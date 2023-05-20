@@ -357,3 +357,22 @@ Array.prototype.yindexOf = function yindexOf(target, fromIndex = 0) {
   }
   return -1;
 };
+
+Array.yisArray = function yisArray(array) {
+  return (Object.prototype.toString.call(array) === '[object Array]');
+};
+
+Array.prototype.yjoin = function yjoin(separator = ',') {
+  const originalArray = this;
+  let result = '';
+  for (let index = 0; index < originalArray.length; index += 1) {
+    const element = originalArray[index];
+    if (result !== '') {
+      result += separator;
+    }
+    if (element !== undefined) {
+      result += element;
+    }
+  }
+  return result;
+};

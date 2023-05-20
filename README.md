@@ -19,4 +19,5 @@
 - iterative method's callback functions can change the array it is called on but the amount of iteration varies whether we add elements (amount of iteration does not change) or remove elements (amount changes)
 - findLast and findLastIndex new method avaiable from NodeJS 18
 - proxy/handlers in JS
-- one can detect sparse arrays empty slots with (index in originalArray)
+- one can detect sparse arrays empty slots with !(index in array)
+- it's not that easy to check that something is an array or not: https://web.mit.edu/jwalden/www/isArray.html

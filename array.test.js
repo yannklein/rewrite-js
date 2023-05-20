@@ -639,4 +639,56 @@ describe('Array methods', () => {
       expect(Array.prototype.yindexOf.call(arrayLike, 5)).toBe(-1);
     });
   });
+
+  describe('#yisArray', () => {
+    test('return true if array or false', () => {
+      expect(Array.yisArray([])).toBe(true);
+      expect(Array.yisArray([1])).toBe(true);
+      // eslint-disable-next-line no-array-constructor
+      expect(Array.yisArray(new Array())).toBe(true);
+      // eslint-disable-next-line no-array-constructor
+      expect(Array.yisArray(new Array('a', 'b', 'c', 'd'))).toBe(true);
+      expect(Array.yisArray(new Array(3))).toBe(true);
+      expect(Array.yisArray(Array.prototype)).toBe(true);
+
+      // all following calls return false
+      expect(Array.yisArray()).toBe(false);
+      expect(Array.yisArray({})).toBe(false);
+      expect(Array.yisArray(null)).toBe(false);
+      expect(Array.yisArray(undefined)).toBe(false);
+      expect(Array.yisArray(17)).toBe(false);
+      expect(Array.yisArray('Array')).toBe(false);
+      expect(Array.yisArray(true)).toBe(false);
+      expect(Array.yisArray(false)).toBe(false);
+      expect(Array.yisArray(new Uint8Array(32))).toBe(false);
+      expect(Array.yisArray({ __proto__: Array.prototype })).toBe(false);
+    });
+  });
+
+  describe('#yjoin', () => {
+    test('return a joined string with an optional separator', () => {
+      const a = ['Wind', 'Water', 'Fire'];
+      expect(a.yjoin()).toEqual('Wind,Water,Fire');
+      expect(a.yjoin(', ')).toEqual('Wind, Water, Fire');
+      expect(a.yjoin(' + ')).toEqual('Wind + Water + Fire');
+      expect(a.yjoin('')).toEqual('WindWaterFire');
+    });
+
+    test('works on sparse arrays', () => {
+      // eslint-disable-next-line no-sparse-arrays
+      expect([1, , 3].yjoin()).toBe('1,,3');
+      expect([1, undefined, 3].yjoin()).toBe('1,,3');
+    });
+
+    test('works on array-like objects', () => {
+      const arrayLike = {
+        length: 3,
+        0: 2,
+        1: 3,
+        2: 4,
+      };
+      expect(Array.prototype.yjoin.call(arrayLike)).toBe('2,3,4');
+      expect(Array.prototype.yjoin.call(arrayLike, '.')).toBe('2.3.4');
+    });
+  });
 });
