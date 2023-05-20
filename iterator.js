@@ -4,7 +4,7 @@ const IteratorProto = {
     const currentElement = this.array[currentCounter];
     this.counter += 1;
     return {
-      value: [currentCounter, currentElement],
+      value: currentElement,
       done: currentCounter === this.array.length,
     };
   },

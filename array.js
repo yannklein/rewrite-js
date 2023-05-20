@@ -88,7 +88,12 @@ Array.prototype.ycopyWithin = function ycopyWithin(
 
 Array.prototype.yentries = function yentries() {
   const originalArray = this;
-  return new Iterator(originalArray);
+  const result = [];
+  for (let index = 0; index < originalArray.length; index += 1) {
+    const element = originalArray[index];
+    result[result.length] = [index, element];
+  }
+  return new Iterator(result);
 };
 
 Array.prototype.yevery = function yevery(callbackFct, thisArg) {
@@ -375,4 +380,13 @@ Array.prototype.yjoin = function yjoin(separator = ',') {
     }
   }
   return result;
+};
+
+Array.prototype.ykeys = function ykeys() {
+  const originalArray = this;
+  const result = [];
+  for (let index = 0; index < originalArray.length; index += 1) {
+    result[result.length] = index;
+  }
+  return new Iterator(result);
 };

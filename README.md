@@ -21,3 +21,4 @@
 - proxy/handlers in JS
 - one can detect sparse arrays empty slots with !(index in array)
 - it's not that easy to check that something is an array or not: https://web.mit.edu/jwalden/www/isArray.html
+- for-of doesn't ignore empty slot whereas Object.keys() does
