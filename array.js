@@ -1,16 +1,6 @@
 /* eslint-disable no-extend-native */
 const Iterator = require('./iterator');
 
-Array.prototype.ymap = function ymap(callback) {
-  const originalArray = this;
-  const newArray = [];
-  for (let index = 0; index < originalArray.length; index += 1) {
-    const element = originalArray[index];
-    newArray[newArray.length] = callback(element);
-  }
-  return newArray;
-};
-
 Array.prototype.yat = function yat(index) {
   const originalArray = this;
   return index >= 0
@@ -403,4 +393,19 @@ Array.prototype.ylastIndexOf = function ylastIndexOf(target, fromIndex = this.le
     }
   }
   return lastIndex;
+};
+
+Array.prototype.ymap = function ymap(callback, thisArg) {
+  const originalArray = this;
+  const originalLength = originalArray.length;
+  const newArray = [];
+  for (let index = 0; index < originalLength; index += 1) {
+    const element = originalArray[index];
+    newArray[newArray.length] = callback.bind(thisArg || this)(
+      element,
+      index,
+      originalArray,
+    );
+  }
+  return newArray;
 };

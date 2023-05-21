@@ -1,14 +1,6 @@
 require('./array');
 
 describe('Array methods', () => {
-  describe('#ymap', () => {
-    test('returns ["1", "2", "3"] when pass [1, 2, 3] with (n) => n.toString()', () => {
-      const expected = ['1', '2', '3'];
-      const actual = [1, 2, 3].ymap((n) => n.toString());
-      expect(expected).toEqual(actual);
-    });
-  });
-
   describe('#yat', () => {
     test('returns 2 when called on [1, 2, 3] with argument 1', () => {
       const expected = 2;
@@ -760,6 +752,45 @@ describe('Array methods', () => {
       };
       expect(Array.prototype.ylastIndexOf.call(arrayLike, 2)).toBe(0);
       expect(Array.prototype.ylastIndexOf.call(arrayLike, 5)).toBe(-1);
+    });
+  });
+
+  describe('#ymap', () => {
+    test('returns ["1", "2", "3"] when pass [1, 2, 3] with (n) => n.toString()', () => {
+      const expected = ['1', '2', '3'];
+      const actual = [1, 2, 3].ymap((n) => n.toString());
+      expect(expected).toEqual(actual);
+    });
+
+    test('return a copy of the original array, doesn\'t modify it', () => {
+      const array = [1, 2, 1];
+      const someFunction = jest.fn((num) => (num === 2 ? [2, 2] : 1));
+      const actual = array.ymap(someFunction);
+      expect(actual).not.toBe(array);
+    });
+    test('the callback function\'s this takes the value of the method 2nd arg if present', () => {
+      const array = [1, 2, 1];
+      const someFunction = jest.fn();
+      const callback = function callback(elem) {
+        someFunction(this);
+        return [elem];
+      };
+      array.ymap(callback, { some: 'value' });
+      expect(someFunction).toHaveBeenNthCalledWith(1, { some: 'value' });
+    });
+
+    test('original array elements can be updated by callback function', () => {
+      const array = [1, 2, 1];
+      const someFunction = jest.fn();
+      const changeArray = (elem, index, arr) => {
+        // eslint-disable-next-line no-param-reassign
+        arr[index + 1] -= 1;
+        someFunction(`[${arr}][${index}] -> ${elem}`);
+        return [elem];
+      };
+      array.ymap(changeArray);
+      expect(someFunction).toHaveBeenNthCalledWith(1, '[1,1,1][0] -> 1');
+      expect(someFunction).toHaveBeenNthCalledWith(2, '[1,1,0][1] -> 1');
     });
   });
 });
