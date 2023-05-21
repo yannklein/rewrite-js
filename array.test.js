@@ -793,4 +793,23 @@ describe('Array methods', () => {
       expect(someFunction).toHaveBeenNthCalledWith(2, '[1,1,0][1] -> 1');
     });
   });
+
+  describe('#yof', () => {
+    test('returns and array from the passed arguments', () => {
+      expect(Array.yof(1)).toEqual([1]);
+      expect(Array.yof(1, 2, 3)).toEqual([1, 2, 3]);
+      expect(Array.yof(undefined)).toEqual([undefined]);
+    });
+    test('works on non-array constructors', () => {
+      function NotArray(len) {
+        return len;
+      }
+      expect(Array.yof.call(NotArray, 1, 2, 3)).toEqual(NotArray({
+        0: 1, 1: 2, 2: 3, length: 3,
+      }));
+      expect(Array.yof.call(NotArray, 1, 2, 3) instanceof NotArray).toBe(true);
+      expect(typeof Array.yof.call(Object)).toBe('object');
+      expect(Array.yof.call(Object) instanceof Object).toBe(true);
+    });
+  });
 });

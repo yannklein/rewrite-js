@@ -409,3 +409,13 @@ Array.prototype.ymap = function ymap(callback, thisArg) {
   }
   return newArray;
 };
+
+Array.yof = function yof(...args) {
+  const newArray = new this();
+  for (let index = 0; index < args.length; index += 1) {
+    const element = args[index];
+    newArray[index] = element;
+  }
+  newArray.length = args.length;
+  return newArray;
+};
