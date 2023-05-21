@@ -725,4 +725,41 @@ describe('Array methods', () => {
       expect(someFunction).toHaveBeenNthCalledWith(3, 2);
     });
   });
+
+  describe('#ylastIndexOf', () => {
+    test('return index of element or -1 if not found', () => {
+      const array = [2, 9, 9];
+      expect(array.ylastIndexOf(9)).toBe(2);
+      expect(array.ylastIndexOf(7)).toBe(-1);
+    });
+
+    test('return index of element searched from a certain index (2nd arg) or -1 if not found', () => {
+      const array = [2, 9, 9];
+      expect(array.ylastIndexOf(9, 1)).toBe(1);
+      expect(array.ylastIndexOf(9, 2)).toBe(2);
+      expect(array.ylastIndexOf(2, -1)).toBe(0);
+      expect(array.ylastIndexOf(2, -3)).toBe(0);
+    });
+
+    test('return -1 if passed NaN', () => {
+      const array = [NaN];
+      expect(array.ylastIndexOf(NaN)).toBe(-1);
+    });
+
+    test('return -1 if search index of undefiend on sparse arrays', () => {
+      // eslint-disable-next-line no-sparse-arrays
+      expect([1, , 3].ylastIndexOf(undefined)).toBe(-1);
+    });
+
+    test('works on array-like objects', () => {
+      const arrayLike = {
+        length: 3,
+        0: 2,
+        1: 3,
+        2: 4,
+      };
+      expect(Array.prototype.ylastIndexOf.call(arrayLike, 2)).toBe(0);
+      expect(Array.prototype.ylastIndexOf.call(arrayLike, 5)).toBe(-1);
+    });
+  });
 });

@@ -390,3 +390,17 @@ Array.prototype.ykeys = function ykeys() {
   }
   return new Iterator(result);
 };
+
+Array.prototype.ylastIndexOf = function ylastIndexOf(target, fromIndex = this.length - 1) {
+  const originalArray = this;
+  let lastIndex = -1;
+  const end = fromIndex >= 0 ? fromIndex : originalArray.length + fromIndex;
+  for (let index = 0; index <= end; index += 1) {
+    const element = originalArray[index];
+    // !(index in originalArray) detects in the element of index index is an empty slot or not
+    if (target === element && (index in originalArray)) {
+      lastIndex = index;
+    }
+  }
+  return lastIndex;
+};
