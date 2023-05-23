@@ -443,3 +443,27 @@ Array.prototype.ypush = function ypush(...args) {
   originalArray.length = currentLength;
   return originalArray.length;
 };
+
+Array.prototype.yreduce = function yreduce(callback, initialValue) {
+  const originalArray = this;
+  let accumulator;
+  let startIndex;
+  if (initialValue) {
+    accumulator = initialValue;
+    startIndex = 0;
+  } else {
+    // eslint-disable-next-line prefer-destructuring
+    accumulator = originalArray[0];
+    startIndex = 1;
+  }
+  for (let index = startIndex; index < originalArray.length; index += 1) {
+    const element = originalArray[index];
+    accumulator = callback(
+      accumulator,
+      element,
+      index,
+      originalArray,
+    );
+  }
+  return accumulator;
+};

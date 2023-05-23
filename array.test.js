@@ -859,4 +859,22 @@ describe('Array methods', () => {
       });
     });
   });
+  describe('#yreduce', () => {
+    test('reduce an array with inital value', () => {
+      const array = [1, 2, 3, 4];
+      const initialValue = 10;
+      const actual = array.yreduce(
+        (accumulator, currentValue) => accumulator + currentValue,
+        initialValue,
+      );
+      expect(actual).toBe(20);
+    });
+    test('reduce an array without inital value', () => {
+      const array = [1, 2, 3, 4];
+      const actual = array.yreduce(
+        (accumulator, currentValue) => accumulator + currentValue,
+      );
+      expect(actual).toBe(10);
+    });
+  });
 });
