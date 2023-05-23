@@ -431,3 +431,15 @@ Array.prototype.ypop = function ypop() {
   originalArray.length = originalLength - 1;
   return lastElement;
 };
+
+Array.prototype.ypush = function ypush(...args) {
+  const originalArray = this;
+  let currentLength = originalArray.length;
+  for (let index = 0; index < args.length; index += 1) {
+    const element = args[index];
+    originalArray[currentLength] = element;
+    currentLength += 1;
+  }
+  originalArray.length = currentLength;
+  return originalArray.length;
+};

@@ -837,4 +837,26 @@ describe('Array methods', () => {
       expect(arrayLike).toEqual({ length: 2, unrelated: 'foo' });
     });
   });
+
+  describe('#ypush', () => {
+    test('pushes on or many elements into an array', () => {
+      const array = [1, 2, 3];
+      expect(array.ypush(4)).toBe(4);
+      expect(array).toEqual([1, 2, 3, 4]);
+      expect(array.ypush(5, 6, 10)).toBe(7);
+      expect(array).toEqual([1, 2, 3, 4, 5, 6, 10]);
+    });
+    test('works on array-like objects', () => {
+      const arrayLike = {
+        length: 3,
+        unrelated: 'foo',
+        2: 4,
+      };
+      const actual = Array.prototype.ypush.call(arrayLike, 1, 2);
+      expect(actual).toBe(5);
+      expect(arrayLike).toEqual({
+        2: 4, 3: 1, 4: 2, length: 5, unrelated: 'foo',
+      });
+    });
+  });
 });
