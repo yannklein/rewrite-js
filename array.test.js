@@ -877,4 +877,22 @@ describe('Array methods', () => {
       expect(actual).toBe(10);
     });
   });
+  describe('#yreduceRight', () => {
+    test('reduce an array with inital value', () => {
+      const array = ['1', '2', '3', '4'];
+      const initialValue = '10';
+      const actual = array.yreduceRight(
+        (accumulator, currentValue) => accumulator + currentValue,
+        initialValue,
+      );
+      expect(actual).toBe('104321');
+    });
+    test('reduce an array without inital value', () => {
+      const array = ['1', '2', '3', '4'];
+      const actual = array.yreduceRight(
+        (accumulator, currentValue) => accumulator + currentValue,
+      );
+      expect(actual).toBe('4321');
+    });
+  });
 });

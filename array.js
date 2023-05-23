@@ -467,3 +467,27 @@ Array.prototype.yreduce = function yreduce(callback, initialValue) {
   }
   return accumulator;
 };
+
+Array.prototype.yreduceRight = function yreduceRight(callback, initialValue) {
+  const originalArray = this;
+  let accumulator;
+  let startIndex;
+  if (initialValue) {
+    accumulator = initialValue;
+    startIndex = originalArray.length - 1;
+  } else {
+    // eslint-disable-next-line prefer-destructuring
+    accumulator = originalArray[originalArray.length - 1];
+    startIndex = originalArray.length - 2;
+  }
+  for (let index = startIndex; index > -1; index -= 1) {
+    const element = originalArray[index];
+    accumulator = callback(
+      accumulator,
+      element,
+      index,
+      originalArray,
+    );
+  }
+  return accumulator;
+};
