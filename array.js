@@ -419,3 +419,15 @@ Array.yof = function yof(...args) {
   newArray.length = args.length;
   return newArray;
 };
+
+Array.prototype.ypop = function ypop() {
+  const originalArray = this;
+  const originalLength = originalArray.length;
+  if (originalArray.length === 0) {
+    return undefined;
+  }
+  const lastElement = originalArray[originalLength - 1];
+  delete originalArray[originalLength - 1];
+  originalArray.length = originalLength - 1;
+  return lastElement;
+};

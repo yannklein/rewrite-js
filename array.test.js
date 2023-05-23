@@ -812,4 +812,29 @@ describe('Array methods', () => {
       expect(Array.yof.call(Object) instanceof Object).toBe(true);
     });
   });
+
+  describe('#ypop', () => {
+    test('remove the last element of the array and returns it', () => {
+      const array = [1, 2, 3];
+      const actual = array.ypop();
+      expect(actual).toBe(3);
+      expect(array).toEqual([1, 2]);
+    });
+    test('returns undefined for empty arrays', () => {
+      const array = [];
+      const actual = array.ypop();
+      expect(actual).toBe(undefined);
+      expect(array).toEqual([]);
+    });
+    test('works on array-like objects', () => {
+      const arrayLike = {
+        length: 3,
+        unrelated: 'foo',
+        2: 4,
+      };
+      const actual = Array.prototype.ypop.call(arrayLike);
+      expect(actual).toBe(4);
+      expect(arrayLike).toEqual({ length: 2, unrelated: 'foo' });
+    });
+  });
 });
