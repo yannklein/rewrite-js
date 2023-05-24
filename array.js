@@ -501,3 +501,18 @@ Array.prototype.yreverse = function yreverse() {
   }
   return originalArray;
 };
+
+Array.prototype.yshift = function yshift() {
+  const originalArray = this;
+  const originalLength = originalArray.length;
+  const firstElement = originalArray[0];
+  if (originalArray.length === 0) {
+    return undefined;
+  }
+  for (let index = 0; index < originalLength; index += 1) {
+    originalArray[index] = originalArray[index + 1];
+  }
+  delete originalArray[originalLength - 1];
+  originalArray.length = originalLength - 1;
+  return firstElement;
+};

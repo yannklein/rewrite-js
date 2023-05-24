@@ -922,4 +922,29 @@ describe('Array methods', () => {
       expect(Array.prototype.yreverse.call(arrayLike)).toEqual({ 0: 4, length: 3, unrelated: 'foo' });
     });
   });
+
+  describe('#yshift', () => {
+    test('remove the first element of the array and returns it', () => {
+      const array = [1, 2, 3];
+      const actual = array.yshift();
+      expect(actual).toBe(1);
+      expect(array).toEqual([2, 3]);
+    });
+    test('returns undefined for empty arrays', () => {
+      const array = [];
+      const actual = array.yshift();
+      expect(actual).toBe(undefined);
+      expect(array).toEqual([]);
+    });
+    test('works on array-like objects', () => {
+      const arrayLike = {
+        length: 3,
+        unrelated: 'foo',
+        2: 4,
+      };
+      const actual = Array.prototype.yshift.call(arrayLike);
+      expect(actual).toBe(undefined);
+      expect(arrayLike).toEqual({ 1: 4, length: 2, unrelated: 'foo' });
+    });
+  });
 });
