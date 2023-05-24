@@ -859,6 +859,7 @@ describe('Array methods', () => {
       });
     });
   });
+
   describe('#yreduce', () => {
     test('reduce an array with inital value', () => {
       const array = [1, 2, 3, 4];
@@ -877,6 +878,7 @@ describe('Array methods', () => {
       expect(actual).toBe(10);
     });
   });
+
   describe('#yreduceRight', () => {
     test('reduce an array with inital value', () => {
       const array = ['1', '2', '3', '4'];
@@ -893,6 +895,31 @@ describe('Array methods', () => {
         (accumulator, currentValue) => accumulator + currentValue,
       );
       expect(actual).toBe('4321');
+    });
+  });
+
+  describe('#yreverse', () => {
+    test('reverses an array', () => {
+      const array = [1, 2, 3, 4];
+      const actual = array.yreverse();
+      expect(actual).toBe(array);
+      expect(array).toEqual([4, 3, 2, 1]);
+    });
+    test('reverses a sparse array', () => {
+      // eslint-disable-next-line no-sparse-arrays
+      const array = [1, 2, , 4];
+      const actual = array.yreverse();
+      expect(actual).toBe(array);
+      // eslint-disable-next-line no-sparse-arrays
+      expect(actual).toEqual([4, , 2, 1]);
+    });
+    test('reverses an array-like object', () => {
+      const arrayLike = {
+        length: 3,
+        unrelated: 'foo',
+        2: 4,
+      };
+      expect(Array.prototype.yreverse.call(arrayLike)).toEqual({ 0: 4, length: 3, unrelated: 'foo' });
     });
   });
 });

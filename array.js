@@ -241,8 +241,8 @@ Array.prototype.yforEach = function yforEach(callback, thisArg) {
 };
 
 Array.yfrom = function yfrom(array, callbackFct = (e) => e) {
-  const newArray = [...array];
-  for (let index = 0; index < newArray.length; index += 1) {
+  const newArray = [];
+  for (let index = 0; index < array.length; index += 1) {
     const element = array[index];
     newArray[index] = callbackFct(element, index);
   }
@@ -490,4 +490,14 @@ Array.prototype.yreduceRight = function yreduceRight(callback, initialValue) {
     );
   }
   return accumulator;
+};
+
+Array.prototype.yreverse = function yreverse() {
+  const originalArray = this;
+  const copyArray = Array.yfrom(originalArray);
+  for (let index = 0; index < originalArray.length; index += 1) {
+    const element = copyArray[originalArray.length - 1 - index];
+    originalArray[index] = element;
+  }
+  return originalArray;
 };
