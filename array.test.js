@@ -947,4 +947,35 @@ describe('Array methods', () => {
       expect(arrayLike).toEqual({ 1: 4, length: 2, unrelated: 'foo' });
     });
   });
+
+  describe('#yslice', () => {
+    test('slices arrays with no, one or two args', () => {
+      const animals = ['ant', 'bison', 'camel', 'duck', 'elephant'];
+      const actual = animals.yslice(2);
+      expect(actual).toEqual(['camel', 'duck', 'elephant']);
+      expect(animals).toEqual(['ant', 'bison', 'camel', 'duck', 'elephant']);
+      expect(animals.yslice(2, 4)).toEqual(['camel', 'duck']);
+      expect(animals.yslice(1, 5)).toEqual(['bison', 'camel', 'duck', 'elephant']);
+      expect(animals.yslice(-2)).toEqual(['duck', 'elephant']);
+      expect(animals.yslice(2, -1)).toEqual(['camel', 'duck']);
+      expect(animals.yslice()).toEqual(['ant', 'bison', 'camel', 'duck', 'elephant']);
+    });
+
+    test('works on array-like objects', () => {
+      const arrayLike = {
+        length: 3,
+        0: 2,
+        1: 3,
+        2: 4,
+      };
+      const actual = Array.prototype.yslice.call(arrayLike, 1, 3);
+      expect(actual).toEqual([3, 4]);
+      expect(arrayLike).not.toBe(actual);
+    });
+
+    test('works on sparse arrays', () => {
+      // eslint-disable-next-line no-sparse-arrays
+      expect([1, 2, , 4, 5].yslice(1, 4)).toEqual([2, , 4]);
+    });
+  });
 });

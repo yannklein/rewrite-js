@@ -516,3 +516,31 @@ Array.prototype.yshift = function yshift() {
   originalArray.length = originalLength - 1;
   return firstElement;
 };
+
+Array.prototype.yslice = function yslice(start = 0, end = this.length) {
+  const originalArray = this;
+  const slicedArray = [];
+
+  let absStart = start;
+  let absEnd = end;
+
+  if (start >= originalArray.length) {
+    return slicedArray;
+  }
+  if (start < -originalArray.length) {
+    absStart = 0;
+  } else if (start < 0) {
+    absStart = this.length + start;
+  }
+
+  if (end < -originalArray.length) {
+    absEnd = 0;
+  } else if (end < 0) {
+    absEnd = this.length + end;
+  }
+
+  for (let index = absStart; index < absEnd; index += 1) {
+    slicedArray[slicedArray.length] = originalArray[index];
+  }
+  return slicedArray;
+};
