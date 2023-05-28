@@ -87,7 +87,7 @@ describe('Array methods', () => {
 
     test('returns undefined for sparse arrays', () => {
       // eslint-disable-next-line no-sparse-arrays
-      const array = [1,, 3];
+      const array = [1, , 3];
       const iterator = array.yentries();
 
       expect(iterator.next().value).toEqual([0, 1]);
@@ -151,8 +151,14 @@ describe('Array methods', () => {
       };
       array.yevery(changeArray);
       expect(someFunction).toHaveBeenNthCalledWith(1, '[1,2,3,new][0] -> 1');
-      expect(someFunction).toHaveBeenNthCalledWith(2, '[1,2,3,new,new][1] -> 2');
-      expect(someFunction).toHaveBeenNthCalledWith(3, '[1,2,3,new,new,new][2] -> 3');
+      expect(someFunction).toHaveBeenNthCalledWith(
+        2,
+        '[1,2,3,new,new][1] -> 2',
+      );
+      expect(someFunction).toHaveBeenNthCalledWith(
+        3,
+        '[1,2,3,new,new,new][2] -> 3',
+      );
     });
 
     test('original array elements can be removed by callback function and amount of iteration does change', () => {
@@ -169,7 +175,7 @@ describe('Array methods', () => {
       expect(someFunction).toHaveBeenNthCalledWith(2, '[1,2][1] -> 2');
     });
 
-    test('the callback function\'s this become takes the value of the method 2nd arg', () => {
+    test("the callback function's this become takes the value of the method 2nd arg", () => {
       const array = [1, 2, 3, 4];
       const someFunction = jest.fn();
       const conditionFct = function conditionFct(elem) {
@@ -233,7 +239,7 @@ describe('Array methods', () => {
       expect(actual).toBe(undefined);
     });
 
-    test('the callback function\'s this takes the value of the method 2nd arg if present', () => {
+    test("the callback function's this takes the value of the method 2nd arg if present", () => {
       const array = [1, 2, 3, 4];
       const someFunction = jest.fn();
       const conditionFct = function conditionFct(elem) {
@@ -258,7 +264,7 @@ describe('Array methods', () => {
       expect(actual).toBe(-1);
     });
 
-    test('the callback function\'s this become takes the value of the method 2nd arg', () => {
+    test("the callback function's this become takes the value of the method 2nd arg", () => {
       const array = [1, 2, 3, 4];
       const someFunction = jest.fn();
       const conditionFct = function conditionFct(elem) {
@@ -283,7 +289,7 @@ describe('Array methods', () => {
       expect(actual).toBe(undefined);
     });
 
-    test('the callback function\'s this become takes the value of the method 2nd arg', () => {
+    test("the callback function's this become takes the value of the method 2nd arg", () => {
       const array = [1, 2, 3, 4];
       const someFunction = jest.fn();
       const conditionFct = function conditionFct(elem) {
@@ -308,7 +314,7 @@ describe('Array methods', () => {
       expect(actual).toBe(-1);
     });
 
-    test('the callback function\'s this become takes the value of the method 2nd arg', () => {
+    test("the callback function's this become takes the value of the method 2nd arg", () => {
       const array = [1, 2, 3, 4];
       const someFunction = jest.fn();
       const conditionFct = function conditionFct(elem) {
@@ -371,13 +377,13 @@ describe('Array methods', () => {
       const actual = array.yflatMap(someFunction);
       expect(actual).toEqual([1, 2, 2, 1]);
     });
-    test('return a copy of the original array, doesn\'t modify it', () => {
+    test("return a copy of the original array, doesn't modify it", () => {
       const array = [1, 2, 1];
       const someFunction = jest.fn((num) => (num === 2 ? [2, 2] : 1));
       const actual = array.yflatMap(someFunction);
       expect(actual).not.toBe(array);
     });
-    test('the callback function\'s this takes the value of the method 2nd arg if present', () => {
+    test("the callback function's this takes the value of the method 2nd arg if present", () => {
       const array = [1, 2, 1];
       const someFunction = jest.fn();
       const conditionFct = function conditionFct(elem) {
@@ -438,7 +444,7 @@ describe('Array methods', () => {
       expect(someFunction).toHaveBeenNthCalledWith(3, 3, 2, [1, 2, 3]);
     });
 
-    test('the callback function\'s this takes the value of the method 2nd arg if present', () => {
+    test("the callback function's this takes the value of the method 2nd arg if present", () => {
       const array = [1, 2, 1];
       const someFunction = jest.fn();
       function forEachFct() {
@@ -498,7 +504,10 @@ describe('Array methods', () => {
         [3, 4],
       ]);
       const actual = await Array.yfromAsync(map);
-      await expect(actual).toEqual([[1, 2], [3, 4]]);
+      await expect(actual).toEqual([
+        [1, 2],
+        [3, 4],
+      ]);
     });
   });
 
@@ -510,9 +519,7 @@ describe('Array methods', () => {
         { name: 'cherries', type: 'fruit', quantity: 5 },
       ];
       const expected = {
-        vegetables: [
-          { name: 'asparagus', type: 'vegetables', quantity: 5 },
-        ],
+        vegetables: [{ name: 'asparagus', type: 'vegetables', quantity: 5 }],
         fruit: [
           { name: 'bananas', type: 'fruit', quantity: 0 },
           { name: 'cherries', type: 'fruit', quantity: 5 },
@@ -521,7 +528,7 @@ describe('Array methods', () => {
       const actual = inventory.ygroup(({ type }) => type);
       expect(actual).toEqual(expected);
     });
-    test('the callback function\'s this become takes the value of the method 2nd arg', () => {
+    test("the callback function's this become takes the value of the method 2nd arg", () => {
       const array = [1, 2, 3, 4];
       const someFunction = jest.fn();
       const conditionFct = function conditionFct(elem) {
@@ -542,7 +549,9 @@ describe('Array methods', () => {
         { name: 'goat', type: 'meat', quantity: 23 },
       ];
       const expected = new Map();
-      expected.set('restock', [{ name: 'bananas', type: 'fruit', quantity: 5 }]);
+      expected.set('restock', [
+        { name: 'bananas', type: 'fruit', quantity: 5 },
+      ]);
       expected.set('sufficient', [
         { name: 'asparagus', type: 'vegetables', quantity: 9 },
         { name: 'goat', type: 'meat', quantity: 23 },
@@ -552,7 +561,7 @@ describe('Array methods', () => {
       expect(actual).toEqual(expected);
     });
 
-    test('the callback function\'s this become takes the value of the method 2nd arg', () => {
+    test("the callback function's this become takes the value of the method 2nd arg", () => {
       const array = [1, 2, 3, 4];
       const someFunction = jest.fn();
       const conditionFct = function conditionFct(elem) {
@@ -582,7 +591,7 @@ describe('Array methods', () => {
     });
     test('finds undefined on sparse arrays', () => {
       // eslint-disable-next-line no-sparse-arrays
-      expect([1,, 3].yincludes(undefined)).toBe(true);
+      expect([1, , 3].yincludes(undefined)).toBe(true);
     });
     test('works on array-like', () => {
       const arrayLike = {
@@ -696,7 +705,7 @@ describe('Array methods', () => {
 
     test('returns undefined for sparse arrays', () => {
       // eslint-disable-next-line no-sparse-arrays
-      const array = [1,, 3];
+      const array = [1, , 3];
       const iterator = array.ykeys();
 
       expect(iterator.next().value).toEqual(0);
@@ -762,13 +771,13 @@ describe('Array methods', () => {
       expect(expected).toEqual(actual);
     });
 
-    test('return a copy of the original array, doesn\'t modify it', () => {
+    test("return a copy of the original array, doesn't modify it", () => {
       const array = [1, 2, 1];
       const someFunction = jest.fn((num) => (num === 2 ? [2, 2] : 1));
       const actual = array.ymap(someFunction);
       expect(actual).not.toBe(array);
     });
-    test('the callback function\'s this takes the value of the method 2nd arg if present', () => {
+    test("the callback function's this takes the value of the method 2nd arg if present", () => {
       const array = [1, 2, 1];
       const someFunction = jest.fn();
       const callback = function callback(elem) {
@@ -804,9 +813,14 @@ describe('Array methods', () => {
       function NotArray(len) {
         return len;
       }
-      expect(Array.yof.call(NotArray, 1, 2, 3)).toEqual(NotArray({
-        0: 1, 1: 2, 2: 3, length: 3,
-      }));
+      expect(Array.yof.call(NotArray, 1, 2, 3)).toEqual(
+        NotArray({
+          0: 1,
+          1: 2,
+          2: 3,
+          length: 3,
+        }),
+      );
       expect(Array.yof.call(NotArray, 1, 2, 3) instanceof NotArray).toBe(true);
       expect(typeof Array.yof.call(Object)).toBe('object');
       expect(Array.yof.call(Object) instanceof Object).toBe(true);
@@ -855,7 +869,11 @@ describe('Array methods', () => {
       const actual = Array.prototype.ypush.call(arrayLike, 1, 2);
       expect(actual).toBe(5);
       expect(arrayLike).toEqual({
-        2: 4, 3: 1, 4: 2, length: 5, unrelated: 'foo',
+        2: 4,
+        3: 1,
+        4: 2,
+        length: 5,
+        unrelated: 'foo',
       });
     });
   });
@@ -919,7 +937,11 @@ describe('Array methods', () => {
         unrelated: 'foo',
         2: 4,
       };
-      expect(Array.prototype.yreverse.call(arrayLike)).toEqual({ 0: 4, length: 3, unrelated: 'foo' });
+      expect(Array.prototype.yreverse.call(arrayLike)).toEqual({
+        0: 4,
+        length: 3,
+        unrelated: 'foo',
+      });
     });
   });
 
@@ -955,10 +977,21 @@ describe('Array methods', () => {
       expect(actual).toEqual(['camel', 'duck', 'elephant']);
       expect(animals).toEqual(['ant', 'bison', 'camel', 'duck', 'elephant']);
       expect(animals.yslice(2, 4)).toEqual(['camel', 'duck']);
-      expect(animals.yslice(1, 5)).toEqual(['bison', 'camel', 'duck', 'elephant']);
+      expect(animals.yslice(1, 5)).toEqual([
+        'bison',
+        'camel',
+        'duck',
+        'elephant',
+      ]);
       expect(animals.yslice(-2)).toEqual(['duck', 'elephant']);
       expect(animals.yslice(2, -1)).toEqual(['camel', 'duck']);
-      expect(animals.yslice()).toEqual(['ant', 'bison', 'camel', 'duck', 'elephant']);
+      expect(animals.yslice()).toEqual([
+        'ant',
+        'bison',
+        'camel',
+        'duck',
+        'elephant',
+      ]);
     });
 
     test('works on array-like objects', () => {
@@ -1021,8 +1054,14 @@ describe('Array methods', () => {
       };
       array.ysome(changeArray);
       expect(someFunction).toHaveBeenNthCalledWith(1, '[1,2,3,new][0] -> 1');
-      expect(someFunction).toHaveBeenNthCalledWith(2, '[1,2,3,new,new][1] -> 2');
-      expect(someFunction).toHaveBeenNthCalledWith(3, '[1,2,3,new,new,new][2] -> 3');
+      expect(someFunction).toHaveBeenNthCalledWith(
+        2,
+        '[1,2,3,new,new][1] -> 2',
+      );
+      expect(someFunction).toHaveBeenNthCalledWith(
+        3,
+        '[1,2,3,new,new,new][2] -> 3',
+      );
     });
 
     test('original array elements can be removed by callback function and amount of iteration does change', () => {
@@ -1039,7 +1078,7 @@ describe('Array methods', () => {
       expect(someFunction).toHaveBeenNthCalledWith(2, '[1,2][1] -> 2');
     });
 
-    test('the callback function\'s this become takes the value of the method 2nd arg', () => {
+    test("the callback function's this become takes the value of the method 2nd arg", () => {
       const array = [1, 2, 3, 4];
       const someFunction = jest.fn();
       const conditionFct = function conditionFct(elem) {
@@ -1049,6 +1088,27 @@ describe('Array methods', () => {
       array.ysome(conditionFct, { some: 'value' });
 
       expect(someFunction).toHaveBeenNthCalledWith(1, { some: 'value' });
+    });
+  });
+
+  describe('#ysort', () => {
+    test('sort original array according to callbackfct', () => {
+      const stringArray = ['Blue', 'Humpback', 'Beluga'];
+      const numberArray = [40, 1, 5, 200];
+      // const numericStringArray = ['80', '9', '700'];
+      // const mixedNumericArray = ['80', '9', '700', 40, 1, 5, 200];
+
+      // function compareNumbers(a, b) {
+      //   return a - b;
+      // }
+
+      expect(stringArray.ysort()).toEqual(['Beluga', 'Blue', 'Humpback']);
+      expect(numberArray.ysort()).toEqual([1, 200, 40, 5]);
+      // expect(numberArray.ysort(compareNumbers)).toEqual([1, 5, 40, 200]);
+      // expect(numericStringArray.ysort()).toEqual(['700', '80', '9']);
+      // expect(numericStringArray.ysort(compareNumbers)).toEqual(['9', '80', '700']);
+      // expect(mixedNumericArray.ysort()).toEqual([1, 200, 40, 5, '700', '80', '9']);
+      // expect(mixedNumericArray.ysort(compareNumbers)).toEqual([1, 5, '9', 40, '80', 200, '700']);
     });
   });
 });

@@ -232,11 +232,7 @@ Array.prototype.yforEach = function yforEach(callback, thisArg) {
   const originalLength = originalArray.length;
   for (let index = 0; index < originalLength; index += 1) {
     const element = originalArray[index];
-    callback.bind(thisArg || this)(
-      element,
-      index,
-      originalArray,
-    );
+    callback.bind(thisArg || this)(element, index, originalArray);
   }
 };
 
@@ -262,7 +258,7 @@ Array.prototype.ygroup = function ygroup(callbackFct, thisArg) {
   const originalArray = this;
   const handler = {
     get(target, prop) {
-      return (prop === undefined) ? [] : target[prop];
+      return prop === undefined ? [] : target[prop];
     },
   };
   const groupedObjProxy = new Proxy({}, handler);
@@ -346,7 +342,7 @@ Array.prototype.yindexOf = function yindexOf(target, fromIndex = 0) {
   for (let index = start; index < originalArray.length; index += 1) {
     const element = originalArray[index];
     // !(index in originalArray) detects in the element of index index is an empty slot or not
-    if (target === element && (index in originalArray)) {
+    if (target === element && index in originalArray) {
       return index;
     }
   }
@@ -354,7 +350,7 @@ Array.prototype.yindexOf = function yindexOf(target, fromIndex = 0) {
 };
 
 Array.yisArray = function yisArray(array) {
-  return (Object.prototype.toString.call(array) === '[object Array]');
+  return Object.prototype.toString.call(array) === '[object Array]';
 };
 
 Array.prototype.yjoin = function yjoin(separator = ',') {
@@ -381,14 +377,17 @@ Array.prototype.ykeys = function ykeys() {
   return new Iterator(result);
 };
 
-Array.prototype.ylastIndexOf = function ylastIndexOf(target, fromIndex = this.length - 1) {
+Array.prototype.ylastIndexOf = function ylastIndexOf(
+  target,
+  fromIndex = this.length - 1,
+) {
   const originalArray = this;
   let lastIndex = -1;
   const end = fromIndex >= 0 ? fromIndex : originalArray.length + fromIndex;
   for (let index = 0; index <= end; index += 1) {
     const element = originalArray[index];
     // !(index in originalArray) detects in the element of index index is an empty slot or not
-    if (target === element && (index in originalArray)) {
+    if (target === element && index in originalArray) {
       lastIndex = index;
     }
   }
@@ -458,12 +457,7 @@ Array.prototype.yreduce = function yreduce(callback, initialValue) {
   }
   for (let index = startIndex; index < originalArray.length; index += 1) {
     const element = originalArray[index];
-    accumulator = callback(
-      accumulator,
-      element,
-      index,
-      originalArray,
-    );
+    accumulator = callback(accumulator, element, index, originalArray);
   }
   return accumulator;
 };
@@ -482,12 +476,7 @@ Array.prototype.yreduceRight = function yreduceRight(callback, initialValue) {
   }
   for (let index = startIndex; index > -1; index -= 1) {
     const element = originalArray[index];
-    accumulator = callback(
-      accumulator,
-      element,
-      index,
-      originalArray,
-    );
+    accumulator = callback(accumulator, element, index, originalArray);
   }
   return accumulator;
 };
@@ -560,4 +549,47 @@ Array.prototype.ysome = function ysome(callbackFct, thisArg) {
     }
   }
   return false;
+};
+
+Array.prototype.ysort = function ysort(callback) {
+  const originalArray = this;
+  function merge(nums1, nums2) {
+    let index1 = 0;
+    let index2 = 0;
+    while (index2 <= nums2.length - 1) {
+      const num1 = nums1[index1];
+      const num2 = nums2[index2];
+      let condition = (num1?.toString() < num2?.toString());
+      if (callback) {
+        condition = callback(num1, num2) > 0;
+      }
+      if (condition) {
+        nums2.splice(index2, 0, nums1[index1]);
+        index1 += 1;
+      }
+      index2 += 1;
+    }
+    if (index1 <= nums1.length - 1) {
+      return nums2.concat(nums1.slice(index1));
+    }
+    return nums2;
+  }
+
+  function sortArray(nums) {
+    if (nums.length === 1) return nums;
+
+    const midIndex = Math.round(nums.length / 2);
+    let lowers = nums.slice(0, midIndex);
+    let highers = nums.slice(midIndex);
+
+    if (lowers.length > 1) {
+      lowers = sortArray(lowers);
+    }
+    if (highers.length > 1) {
+      highers = sortArray(highers);
+    }
+    return merge(lowers, highers);
+  }
+
+  return sortArray(originalArray);
 };
