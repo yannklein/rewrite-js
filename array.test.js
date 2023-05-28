@@ -1095,20 +1095,20 @@ describe('Array methods', () => {
     test('sort original array according to callbackfct', () => {
       const stringArray = ['Blue', 'Humpback', 'Beluga'];
       const numberArray = [40, 1, 5, 200];
-      // const numericStringArray = ['80', '9', '700'];
-      // const mixedNumericArray = ['80', '9', '700', 40, 1, 5, 200];
+      const numericStringArray = ['80', '9', '700'];
+      const mixedNumericArray = ['80', '9', '700', 40, 1, 5, 200];
 
-      // function compareNumbers(a, b) {
-      //   return a - b;
-      // }
+      function compareNumbers(a, b) {
+        return a - b;
+      }
 
       expect(stringArray.ysort()).toEqual(['Beluga', 'Blue', 'Humpback']);
       expect(numberArray.ysort()).toEqual([1, 200, 40, 5]);
-      // expect(numberArray.ysort(compareNumbers)).toEqual([1, 5, 40, 200]);
-      // expect(numericStringArray.ysort()).toEqual(['700', '80', '9']);
-      // expect(numericStringArray.ysort(compareNumbers)).toEqual(['9', '80', '700']);
-      // expect(mixedNumericArray.ysort()).toEqual([1, 200, 40, 5, '700', '80', '9']);
-      // expect(mixedNumericArray.ysort(compareNumbers)).toEqual([1, 5, '9', 40, '80', 200, '700']);
+      expect(numberArray.ysort(compareNumbers)).toEqual([1, 5, 40, 200]);
+      expect(numericStringArray.ysort()).toEqual(['700', '80', '9']);
+      expect(numericStringArray.ysort(compareNumbers)).toEqual(['9', '80', '700']);
+      expect(mixedNumericArray.ysort()).toEqual([1, 200, 40, 5, '700', '80', '9']);
+      expect(mixedNumericArray.ysort(compareNumbers)).toEqual([1, 5, '9', 40, '80', 200, '700']);
     });
   });
 });

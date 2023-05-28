@@ -561,7 +561,7 @@ Array.prototype.ysort = function ysort(callback) {
       const num2 = nums2[index2];
       let condition = (num1?.toString() < num2?.toString());
       if (callback) {
-        condition = callback(num1, num2) > 0;
+        condition = callback(num1, num2) < 0;
       }
       if (condition) {
         nums2.splice(index2, 0, nums1[index1]);
