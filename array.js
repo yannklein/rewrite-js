@@ -544,3 +544,20 @@ Array.prototype.yslice = function yslice(start = 0, end = this.length) {
   }
   return slicedArray;
 };
+
+Array.prototype.ysome = function ysome(callbackFct, thisArg) {
+  const originalArray = this;
+  const originalLength = this.length;
+  for (let index = 0; index < originalLength; index += 1) {
+    const element = originalArray[index];
+    const result = callbackFct.bind(thisArg || this)(
+      element,
+      index,
+      originalArray,
+    );
+    if (result) {
+      return true;
+    }
+  }
+  return false;
+};

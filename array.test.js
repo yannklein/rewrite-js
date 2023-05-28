@@ -978,4 +978,77 @@ describe('Array methods', () => {
       expect([1, 2, , 4, 5].yslice(1, 4)).toEqual([2, , 4]);
     });
   });
+
+  describe('#ysome', () => {
+    test('returns true if at least one element pass the threshold', () => {
+      const array = [1, 2, 3];
+      const isBelowThreshold = jest.fn((currentValue) => currentValue < 3);
+      const actual = array.ysome(isBelowThreshold);
+
+      expect(actual).toBe(true);
+    });
+    test('returns false if all elements do not pass the threshold', () => {
+      const array = [1, 2, 3];
+      const isBelowThreshold = jest.fn((currentValue) => currentValue > 4);
+      const actual = array.ysome(isBelowThreshold);
+
+      expect(actual).toBe(false);
+    });
+
+    test('original array elements can be updated by callback function', () => {
+      const array = [1, 2, 3, 4];
+      const someFunction = jest.fn();
+      const changeArray = (elem, index, arr) => {
+        // eslint-disable-next-line no-param-reassign
+        arr[index + 1] -= 1;
+        someFunction(`[${arr}][${index}] -> ${elem}`);
+        return elem > 4;
+      };
+      array.ysome(changeArray);
+      expect(someFunction).toHaveBeenNthCalledWith(1, '[1,1,3,4][0] -> 1');
+      expect(someFunction).toHaveBeenNthCalledWith(2, '[1,1,2,4][1] -> 1');
+      expect(someFunction).toHaveBeenNthCalledWith(3, '[1,1,2,3][2] -> 2');
+    });
+
+    test('original array elements can be added to callback function but amount of iteration does not change', () => {
+      const array = [1, 2, 3];
+      const someFunction = jest.fn();
+      const changeArray = (elem, index, arr) => {
+        arr.push('new');
+        // console.log(`[${arr}][${index}] -> ${elem}`);
+        someFunction(`[${arr}][${index}] -> ${elem}`);
+        return elem > 4;
+      };
+      array.ysome(changeArray);
+      expect(someFunction).toHaveBeenNthCalledWith(1, '[1,2,3,new][0] -> 1');
+      expect(someFunction).toHaveBeenNthCalledWith(2, '[1,2,3,new,new][1] -> 2');
+      expect(someFunction).toHaveBeenNthCalledWith(3, '[1,2,3,new,new,new][2] -> 3');
+    });
+
+    test('original array elements can be removed by callback function and amount of iteration does change', () => {
+      const array = [1, 2, 3, 4];
+      const someFunction = jest.fn();
+      const changeArray = (elem, index, arr) => {
+        arr.pop();
+        someFunction(`[${arr}][${index}] -> ${elem}`);
+        return elem > 4;
+      };
+      array.ysome(changeArray);
+
+      expect(someFunction).toHaveBeenNthCalledWith(1, '[1,2,3][0] -> 1');
+      expect(someFunction).toHaveBeenNthCalledWith(2, '[1,2][1] -> 2');
+    });
+
+    test('the callback function\'s this become takes the value of the method 2nd arg', () => {
+      const array = [1, 2, 3, 4];
+      const someFunction = jest.fn();
+      const conditionFct = function conditionFct(elem) {
+        someFunction(this);
+        return elem < 4;
+      };
+      array.ysome(conditionFct, { some: 'value' });
+
+      expect(someFunction).toHaveBeenNthCalledWith(1, { some: 'value' });
+    });
+  });
 });
