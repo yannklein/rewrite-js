@@ -1111,4 +1111,70 @@ describe('Array methods', () => {
       expect(mixedNumericArray.ysort(compareNumbers)).toEqual([1, 5, '9', 40, '80', 200, '700']);
     });
   });
+
+  describe('#ysplice', () => {
+    test('remove 0 (zero) elements before index 2, and insert "drum"', () => {
+      const myFish = ['angel', 'clown', 'mandarin', 'sturgeon'];
+      const actual = myFish.ysplice(2, 0, 'drum', 'guitar');
+      expect(myFish).toEqual(['angel', 'clown', 'drum', 'guitar', 'mandarin', 'sturgeon']);
+      expect(actual).toEqual([]);
+    });
+
+    test('remove 1 element at index 3', () => {
+      const myFish = ['angel', 'clown', 'drum', 'mandarin', 'sturgeon'];
+      const actual = myFish.ysplice(3, 1);
+      expect(myFish).toEqual(['angel', 'clown', 'drum', 'sturgeon']);
+      expect(actual).toEqual(['mandarin']);
+    });
+
+    test('remove 1 element at index 2, and insert "trumpet"', () => {
+      const myFish = ['angel', 'clown', 'drum', 'sturgeon'];
+      const actual = myFish.ysplice(2, 1, 'trumpet');
+      expect(myFish).toEqual(['angel', 'clown', 'trumpet', 'sturgeon']);
+      expect(actual).toEqual(['drum']);
+    });
+
+    test('remove 1 element from index -2', () => {
+      const myFish = ['angel', 'clown', 'mandarin', 'sturgeon'];
+      const actual = myFish.ysplice(-2, 1);
+      expect(myFish).toEqual(['angel', 'clown', 'sturgeon']);
+      expect(actual).toEqual(['mandarin']);
+    });
+
+    test('remove 3 elements, starting from index 1', () => {
+      const myFish = ['angel', 'clown', 'mandarin', 'sturgeon'];
+      const actual = myFish.ysplice(1, 3);
+      expect(myFish).toEqual(['angel']);
+      expect(actual).toEqual(['clown', 'mandarin', 'sturgeon']);
+    });
+
+    test('remove all elements, starting from index 2', () => {
+      const myFish = ['angel', 'clown', 'mandarin', 'sturgeon'];
+      const actual = myFish.ysplice(2);
+      expect(myFish).toEqual(['angel', 'clown']);
+      expect(actual).toEqual(['mandarin', 'sturgeon']);
+    });
+
+    test('works on sparse arrays', () => {
+      // eslint-disable-next-line no-sparse-arrays
+      const arr = [1, , 3, 4, , 6];
+      // eslint-disable-next-line no-sparse-arrays
+      expect(arr.splice(1, 2)).toEqual([, 3]);
+      // eslint-disable-next-line no-sparse-arrays
+      expect(arr).toEqual([1, 4,, 6]);
+    });
+
+    test('works on array-like objects', () => {
+      const arrayLike = {
+        length: 3,
+        unrelated: 'foo',
+        0: 5,
+        2: 4,
+      };
+      expect(Array.prototype.ysplice.call(arrayLike, 0, 1, 2, 3)).toEqual([5]);
+      expect(arrayLike).toEqual({
+        0: 2, 1: 3, 3: 4, length: 4, unrelated: 'foo',
+      });
+    });
+  });
 });

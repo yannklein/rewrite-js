@@ -570,7 +570,7 @@ Array.prototype.ysort = function ysort(callback) {
       index2 += 1;
     }
     if (index1 <= nums1.length - 1) {
-      return nums2.concat(nums1.slice(index1));
+      return nums2.yconcat(nums1.slice(index1));
     }
     return nums2;
   }
@@ -579,8 +579,8 @@ Array.prototype.ysort = function ysort(callback) {
     if (nums.length === 1) return nums;
 
     const midIndex = Math.round(nums.length / 2);
-    let lowers = nums.slice(0, midIndex);
-    let highers = nums.slice(midIndex);
+    let lowers = nums.yslice(0, midIndex);
+    let highers = nums.yslice(midIndex);
 
     if (lowers.length > 1) {
       lowers = sortArray(lowers);
@@ -592,4 +592,50 @@ Array.prototype.ysort = function ysort(callback) {
   }
 
   return sortArray(originalArray);
+};
+
+Array.prototype.ysplice = function ysplice(start, deleteCount = this.length - start, ...items) {
+  const originalArray = this;
+  const deletedItems = [];
+
+  let absStart = start;
+  if (start < 0) {
+    absStart = originalArray.length + start;
+  }
+  // deletion
+  const delTmpArray = Array.yfrom(originalArray);
+  // if some deletion needed
+  if (deleteCount) {
+    // retrieve the items to delete
+    for (let index = absStart; index < (absStart + deleteCount); index += 1) {
+      deletedItems[deletedItems.length] = delTmpArray[index];
+    }
+    // slide every items to the left in the original array
+    for (let index = absStart; index < (delTmpArray.length - deleteCount); index += 1) {
+      originalArray[index] = delTmpArray[index + deleteCount];
+    }
+    // recalculate the original array length (and remove the right side duplicate elements)
+    originalArray.length -= deleteCount;
+    // for non-arrays, remove the right side duplicate elements manually
+    for (let index = 0; index < deleteCount; index += 1) {
+      delete originalArray[originalArray.length + index];
+    }
+  }
+
+  // addition
+  const addTmpArray = Array.yfrom(originalArray);
+  if (items.length !== 0) {
+    // calculate and assign new array length after addition of elements
+    const newLength = addTmpArray.length + items.length;
+    originalArray.length = newLength;
+
+    for (let index = absStart; index < newLength; index += 1) {
+      // calculate new element value,
+      // it's the args one if still some to add
+      // or the remaining original array ones if none left anymore
+      const newValue = items[index - absStart] || addTmpArray[index - items.length];
+      originalArray[index] = newValue;
+    }
+  }
+  return deletedItems;
 };
