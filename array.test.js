@@ -1177,4 +1177,18 @@ describe('Array methods', () => {
       });
     });
   });
+
+  describe('#ytoLocaleString', () => {
+    test('return a date with correct options"', () => {
+      const array = [1, 'a', new Date('21 Dec 1997 14:12:00 UTC')];
+      const actual = array.ytoLocaleString('en', { timeZone: 'UTC' });
+      expect(actual).toBe('1,a,12/21/1997, 2:12:00 PM');
+    });
+
+    test('return a currency with correct options"', () => {
+      const prices = ['￥7', 500, 8123, 12];
+      const actual = prices.ytoLocaleString('ja-JP', { style: 'currency', currency: 'JPY' });
+      expect(actual).toBe('￥7,￥500,￥8,123,￥12');
+    });
+  });
 });

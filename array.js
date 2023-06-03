@@ -639,3 +639,9 @@ Array.prototype.ysplice = function ysplice(start, deleteCount = this.length - st
   }
   return deletedItems;
 };
+
+Array.prototype.ytoLocaleString = function ytoLocaleString(lang, options) {
+  const originalArray = this;
+  const localArray = originalArray.map((elt) => elt.toLocaleString(lang, options));
+  return localArray.join();
+};
