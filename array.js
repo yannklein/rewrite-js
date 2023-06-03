@@ -645,3 +645,13 @@ Array.prototype.ytoLocaleString = function ytoLocaleString(lang, options) {
   const localArray = originalArray.map((elt) => elt.toLocaleString(lang, options));
   return localArray.join();
 };
+
+Array.prototype.ytoReversed = function ytoReversed() {
+  const originalArray = this;
+  const copyArray = Array.yfrom(originalArray);
+  for (let index = 0; index < originalArray.length; index += 1) {
+    const element = originalArray[originalArray.length - 1 - index];
+    copyArray[index] = element;
+  }
+  return copyArray;
+};

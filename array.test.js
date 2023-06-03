@@ -1191,4 +1191,28 @@ describe('Array methods', () => {
       expect(actual).toBe('￥7,￥500,￥8,123,￥12');
     });
   });
+  describe('#ytoReversed', () => {
+    test('returns reversed array without changing the original one', () => {
+      const array = [1, 2, 3, 4];
+      const actual = array.ytoReversed();
+      expect(actual).not.toBe(array);
+      expect(actual).toEqual([4, 3, 2, 1]);
+    });
+    test('returns reversed sparse array without changing the original one', () => {
+      // eslint-disable-next-line no-sparse-arrays
+      const array = [1, 2, , 4];
+      const actual = array.ytoReversed();
+      expect(actual).not.toBe(array);
+      // eslint-disable-next-line no-sparse-arrays
+      expect(actual).toEqual([4, , 2, 1]);
+    });
+    test('returns reversed array-like object without changing the original one', () => {
+      const arrayLike = {
+        length: 3,
+        unrelated: 'foo',
+        2: 4,
+      };
+      expect(Array.prototype.ytoReversed.call(arrayLike)).toEqual([4, undefined, undefined]);
+    });
+  });
 });
