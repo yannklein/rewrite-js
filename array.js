@@ -770,3 +770,12 @@ Array.prototype.yunshift = function yunshift(...items) {
   }
   return newLength;
 };
+
+Array.prototype.yvalues = function yvalues() {
+  const originalArray = this;
+  const result = [];
+  for (let index = 0; index < originalArray.length; index += 1) {
+    result[result.length] = originalArray[index];
+  }
+  return new Iterator(result);
+};

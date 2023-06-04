@@ -1349,4 +1349,38 @@ describe('Array methods', () => {
       expect(actual).toBe(5);
     });
   });
+
+  describe('#yvalues', () => {
+    test('returns a new array iterator object that contains the key/value pairs for each index in the array', () => {
+      const array = [1, 2, 3];
+      const iterator = array.yvalues();
+
+      expect(iterator.next().value).toEqual(1);
+      expect(iterator.next().value).toEqual(2);
+      expect(iterator.next().value).toEqual(3);
+    });
+
+    test('returns undefined for sparse arrays', () => {
+      // eslint-disable-next-line no-sparse-arrays
+      const array = [1, , 3];
+      const iterator = array.yvalues();
+
+      expect(iterator.next().value).toEqual(1);
+      expect(iterator.next().value).toEqual(undefined);
+      expect(iterator.next().value).toEqual(3);
+    });
+
+    test('can loop on the keys returned iterator', () => {
+      const someFunction = jest.fn();
+      const arrIterator = [1, 2, 3].yvalues();
+      // eslint-disable-next-line no-restricted-syntax
+      for (const value of arrIterator) {
+        someFunction(value);
+      }
+
+      expect(someFunction).toHaveBeenNthCalledWith(1, 1);
+      expect(someFunction).toHaveBeenNthCalledWith(2, 2);
+      expect(someFunction).toHaveBeenNthCalledWith(3, 3);
+    });
+  });
 });
