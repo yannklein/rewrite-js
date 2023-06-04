@@ -1160,7 +1160,7 @@ describe('Array methods', () => {
       // eslint-disable-next-line no-sparse-arrays
       const arr = [1, , 3, 4, , 6];
       // eslint-disable-next-line no-sparse-arrays
-      expect(arr.splice(1, 2)).toEqual([, 3]);
+      expect(arr.ysplice(1, 2)).toEqual([, 3]);
       // eslint-disable-next-line no-sparse-arrays
       expect(arr).toEqual([1, 4,, 6]);
     });
@@ -1237,6 +1237,71 @@ describe('Array methods', () => {
       expect(numericStringArray.ytoSorted(compareNumbers)).toEqual(['9', '80', '700']);
       expect(mixedNumericArray.ytoSorted()).toEqual([1, 200, 40, 5, '700', '80', '9']);
       expect(mixedNumericArray.ytoSorted(compareNumbers)).toEqual([1, 5, '9', 40, '80', 200, '700']);
+    });
+  });
+
+  describe('#ytoSpliced', () => {
+    test('remove 0 (zero) elements before index 2, and insert "drum" in a array copy and returns it', () => {
+      const myFish = ['angel', 'clown', 'mandarin', 'sturgeon'];
+      const actual = myFish.ytoSpliced(2, 0, 'drum', 'guitar');
+      expect(actual).toEqual(['angel', 'clown', 'drum', 'guitar', 'mandarin', 'sturgeon']);
+      expect(actual).not.toBe(myFish);
+    });
+
+    test('remove 1 element at index 3 in a array copy and returns it', () => {
+      const myFish = ['angel', 'clown', 'drum', 'mandarin', 'sturgeon'];
+      const actual = myFish.ytoSpliced(3, 1);
+      expect(actual).toEqual(['angel', 'clown', 'drum', 'sturgeon']);
+      expect(actual).not.toBe(myFish);
+    });
+
+    test('remove 1 element at index 2, and insert "trumpet" in a array copy and returns it', () => {
+      const myFish = ['angel', 'clown', 'drum', 'sturgeon'];
+      const actual = myFish.ytoSpliced(2, 1, 'trumpet');
+      expect(actual).toEqual(['angel', 'clown', 'trumpet', 'sturgeon']);
+      expect(actual).not.toBe(myFish);
+    });
+
+    test('remove 1 element from index -2 in a array copy and returns it', () => {
+      const myFish = ['angel', 'clown', 'mandarin', 'sturgeon'];
+      const actual = myFish.ytoSpliced(-2, 1);
+      expect(actual).toEqual(['angel', 'clown', 'sturgeon']);
+      expect(actual).not.toBe(myFish);
+    });
+
+    test('remove 3 elements, starting from index 1 in a array copy and returns it', () => {
+      const myFish = ['angel', 'clown', 'mandarin', 'sturgeon'];
+      const actual = myFish.ytoSpliced(1, 3);
+      expect(actual).toEqual(['angel']);
+      expect(actual).not.toBe(myFish);
+    });
+
+    test('remove all elements, starting from index 2 in a array copy and returns it', () => {
+      const myFish = ['angel', 'clown', 'mandarin', 'sturgeon'];
+      const actual = myFish.ytoSpliced(2);
+      expect(actual).toEqual(['angel', 'clown']);
+      expect(actual).not.toBe(myFish);
+    });
+
+    test('works on sparse arrays in a array copy and returns it', () => {
+      // eslint-disable-next-line no-sparse-arrays
+      const arr = [1, , 3, 4, , 6];
+      const actual = arr.ytoSpliced(1, 2);
+      expect(actual).not.toBe(arr);
+      // eslint-disable-next-line no-sparse-arrays
+      expect(actual).toEqual([1, 4,, 6]);
+    });
+
+    test('works on array-like objects in a array copy and returns it', () => {
+      const arrayLike = {
+        length: 3,
+        unrelated: 'foo',
+        0: 5,
+        2: 4,
+      };
+      const actual = Array.prototype.ytoSpliced.call(arrayLike, 0, 1, 2, 3);
+      expect(actual).not.toBe(arrayLike);
+      expect(actual).toEqual([2, 3, undefined, 4]);
     });
   });
 });

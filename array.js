@@ -702,3 +702,48 @@ Array.prototype.ytoSorted = function ytoSorted(callback) {
 
   return sortArray(originalArray);
 };
+
+Array.prototype.ytoSpliced = function ytoSpliced(
+  start,
+  deleteCount = this.length - start,
+  ...items
+) {
+  const originalArray = this;
+
+  let absStart = start;
+  if (start < 0) {
+    absStart = originalArray.length + start;
+  }
+  // deletion
+  const splicedArray = Array.yfrom(originalArray);
+  // if some deletion needed
+  if (deleteCount) {
+    // slide every items to the left in the original array
+    for (let index = absStart; index < (originalArray.length - deleteCount); index += 1) {
+      splicedArray[index] = originalArray[index + deleteCount];
+    }
+    // recalculate the slpiced array length (and remove the right side duplicate elements)
+    splicedArray.length -= deleteCount;
+    // for non-arrays, remove the right side duplicate elements manually
+    for (let index = 0; index < deleteCount; index += 1) {
+      delete splicedArray[splicedArray.length + index];
+    }
+  }
+
+  // addition
+  const addTmpArray = Array.yfrom(splicedArray);
+  if (items.length !== 0) {
+    // calculate and assign new array length after addition of elements
+    const newLength = addTmpArray.length + items.length;
+    splicedArray.length = newLength;
+
+    for (let index = absStart; index < newLength; index += 1) {
+      // calculate new element value,
+      // it's the args one if still some to add
+      // or the remaining original array ones if none left anymore
+      const newValue = items[index - absStart] || addTmpArray[index - items.length];
+      splicedArray[index] = newValue;
+    }
+  }
+  return splicedArray;
+};
