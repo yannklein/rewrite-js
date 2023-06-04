@@ -590,8 +590,11 @@ Array.prototype.ysort = function ysort(callback) {
     }
     return merge(lowers, highers);
   }
-
-  return sortArray(originalArray);
+  const sortedArray = sortArray(originalArray);
+  for (let index = 0; index < sortedArray.length; index += 1) {
+    originalArray[index] = sortedArray[index];
+  }
+  return originalArray;
 };
 
 Array.prototype.ysplice = function ysplice(start, deleteCount = this.length - start, ...items) {
@@ -654,4 +657,48 @@ Array.prototype.ytoReversed = function ytoReversed() {
     copyArray[index] = element;
   }
   return copyArray;
+};
+
+Array.prototype.ytoSorted = function ytoSorted(callback) {
+  const originalArray = this;
+
+  function merge(nums1, nums2) {
+    let index1 = 0;
+    let index2 = 0;
+    while (index2 <= nums2.length - 1) {
+      const num1 = nums1[index1];
+      const num2 = nums2[index2];
+      let condition = (num1?.toString() < num2?.toString());
+      if (callback) {
+        condition = callback(num1, num2) < 0;
+      }
+      if (condition) {
+        nums2.splice(index2, 0, nums1[index1]);
+        index1 += 1;
+      }
+      index2 += 1;
+    }
+    if (index1 <= nums1.length - 1) {
+      return nums2.yconcat(nums1.slice(index1));
+    }
+    return nums2;
+  }
+
+  function sortArray(nums) {
+    if (nums.length === 1) return nums;
+
+    const midIndex = Math.round(nums.length / 2);
+    let lowers = nums.yslice(0, midIndex);
+    let highers = nums.yslice(midIndex);
+
+    if (lowers.length > 1) {
+      lowers = sortArray(lowers);
+    }
+    if (highers.length > 1) {
+      highers = sortArray(highers);
+    }
+    return merge(lowers, highers);
+  }
+
+  return sortArray(originalArray);
 };

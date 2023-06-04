@@ -1101,8 +1101,9 @@ describe('Array methods', () => {
       function compareNumbers(a, b) {
         return a - b;
       }
-
-      expect(stringArray.ysort()).toEqual(['Beluga', 'Blue', 'Humpback']);
+      const actual = stringArray.ysort();
+      expect(actual).toEqual(['Beluga', 'Blue', 'Humpback']);
+      expect(actual).toBe(stringArray);
       expect(numberArray.ysort()).toEqual([1, 200, 40, 5]);
       expect(numberArray.ysort(compareNumbers)).toEqual([1, 5, 40, 200]);
       expect(numericStringArray.ysort()).toEqual(['700', '80', '9']);
@@ -1191,6 +1192,7 @@ describe('Array methods', () => {
       expect(actual).toBe('￥7,￥500,￥8,123,￥12');
     });
   });
+
   describe('#ytoReversed', () => {
     test('returns reversed array without changing the original one', () => {
       const array = [1, 2, 3, 4];
@@ -1213,6 +1215,28 @@ describe('Array methods', () => {
         2: 4,
       };
       expect(Array.prototype.ytoReversed.call(arrayLike)).toEqual([4, undefined, undefined]);
+    });
+  });
+
+  describe('#ytoSorted', () => {
+    test('returned new sorted array according to callbackfct', () => {
+      const stringArray = ['Blue', 'Humpback', 'Beluga'];
+      const numberArray = [40, 1, 5, 200];
+      const numericStringArray = ['80', '9', '700'];
+      const mixedNumericArray = ['80', '9', '700', 40, 1, 5, 200];
+
+      function compareNumbers(a, b) {
+        return a - b;
+      }
+      const actual = stringArray.ytoSorted();
+      expect(actual).toEqual(['Beluga', 'Blue', 'Humpback']);
+      expect(actual).not.toEqual(stringArray);
+      expect(numberArray.ytoSorted()).toEqual([1, 200, 40, 5]);
+      expect(numberArray.ytoSorted(compareNumbers)).toEqual([1, 5, 40, 200]);
+      expect(numericStringArray.ytoSorted()).toEqual(['700', '80', '9']);
+      expect(numericStringArray.ytoSorted(compareNumbers)).toEqual(['9', '80', '700']);
+      expect(mixedNumericArray.ytoSorted()).toEqual([1, 200, 40, 5, '700', '80', '9']);
+      expect(mixedNumericArray.ytoSorted(compareNumbers)).toEqual([1, 5, '9', 40, '80', 200, '700']);
     });
   });
 });
