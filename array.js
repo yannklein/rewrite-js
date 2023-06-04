@@ -779,3 +779,11 @@ Array.prototype.yvalues = function yvalues() {
   }
   return new Iterator(result);
 };
+
+Array.prototype.ywith = function ywith(index, value) {
+  const originalArray = this;
+  const resultArray = Array.yfrom(originalArray);
+  const absIndex = index < 0 ? originalArray.length + index : index;
+  resultArray[absIndex] = value;
+  return resultArray;
+};

@@ -1383,4 +1383,29 @@ describe('Array methods', () => {
       expect(someFunction).toHaveBeenNthCalledWith(3, 3);
     });
   });
+
+  describe('#ywith', () => {
+    test('replace a value at a certain index', () => {
+      const arr = [1, 2, 3, 4, 5];
+      expect(arr.ywith(2, 6)).toEqual([1, 2, 6, 4, 5]);
+      expect(arr.ywith(-1, 6)).toEqual([1, 2, 3, 4, 6]);
+      expect(arr).toEqual([1, 2, 3, 4, 5]);
+    });
+
+    test('replace a value at a certain index of sparse arrays', () => {
+      const arr = [1, 2, 3, 4, 5];
+      expect(arr.ywith(2, 6)).toEqual([1, 2, 6, 4, 5]);
+      expect(arr).toEqual([1, 2, 3, 4, 5]);
+    });
+
+    test('works on array-like objects', () => {
+      const arrayLike = {
+        length: 3,
+        unrelated: 'foo',
+        0: 5,
+        2: 4,
+      };
+      expect(Array.prototype.ywith.call(arrayLike, 0, 1)).toEqual([1, undefined, 4]);
+    });
+  });
 });
