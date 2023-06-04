@@ -1322,4 +1322,31 @@ describe('Array methods', () => {
       expect(Array.prototype.ytoString.call({ yjoin: 'not function' })).toBe('[object Object]');
     });
   });
+
+  describe('#yunshift', () => {
+    test('add item(s) at the beginning of an array', () => {
+      const arr = [1, 2];
+      expect(arr.yunshift(0)).toEqual(3);
+      expect(arr).toEqual([0, 1, 2]);
+      expect(arr.yunshift(-2, -1)).toEqual(5);
+      expect(arr).toEqual([-2, -1, 0, 1, 2]);
+      expect(arr.yunshift([-4, -3])).toEqual(6);
+      expect(arr).toEqual([[-4, -3], -2, -1, 0, 1, 2]);
+      expect(arr.yunshift([-7, -6], [-5])).toEqual(8);
+      expect(arr).toEqual([[-7, -6], [-5], [-4, -3], -2, -1, 0, 1, 2]);
+    });
+
+    test('works on array-like objects', () => {
+      const arrayLike = {
+        length: 3,
+        unrelated: 'foo',
+        2: 4,
+      };
+      const actual = Array.prototype.yunshift.call(arrayLike, 1, 2);
+      expect(arrayLike).toEqual({
+        0: 1, 1: 2, 4: 4, length: 5, unrelated: 'foo',
+      });
+      expect(actual).toBe(5);
+    });
+  });
 });

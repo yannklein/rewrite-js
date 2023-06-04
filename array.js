@@ -755,3 +755,18 @@ Array.prototype.ytoString = function ytoSpliced() {
   }
   return originalArray.toString();
 };
+
+Array.prototype.yunshift = function yunshift(...items) {
+  const originalArray = this;
+  const tmpArray = Array.yfrom(originalArray);
+  const newLength = originalArray.length + items.length;
+  originalArray.length = newLength;
+  for (let index = 0; index < newLength; index += 1) {
+    if (items[index] === undefined) {
+      originalArray[index] = tmpArray[index - items.length];
+    } else {
+      originalArray[index] = items[index];
+    }
+  }
+  return newLength;
+};
