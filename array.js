@@ -747,3 +747,11 @@ Array.prototype.ytoSpliced = function ytoSpliced(
   }
   return splicedArray;
 };
+
+Array.prototype.ytoString = function ytoSpliced() {
+  const originalArray = this;
+  if (typeof originalArray.yjoin === 'function') {
+    return originalArray.yjoin();
+  }
+  return originalArray.toString();
+};

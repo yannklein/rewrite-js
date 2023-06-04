@@ -1304,4 +1304,22 @@ describe('Array methods', () => {
       expect(actual).toEqual([2, 3, undefined, 4]);
     });
   });
+
+  describe('#ytoString', () => {
+    test('return a string out of an array', () => {
+      const array1 = [1, 2, 'a', '1a'];
+      expect(array1.ytoString()).toBe('1,2,a,1a');
+    });
+
+    test('works on sparse arrays', () => {
+      // eslint-disable-next-line no-sparse-arrays
+      expect([1, , 3].ytoString()).toBe('1,,3');
+    });
+
+    test('works on array-like objects', () => {
+      expect(Array.prototype.ytoString.call({ yjoin: () => 1 })).toBe(1);
+      expect(Array.prototype.ytoString.call({ yjoin: () => undefined })).toBe(undefined);
+      expect(Array.prototype.ytoString.call({ yjoin: 'not function' })).toBe('[object Object]');
+    });
+  });
 });
