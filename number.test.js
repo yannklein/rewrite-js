@@ -68,4 +68,17 @@ describe('Number methods', () => {
       expect(Number.yisNaN(' ')).toBe(false);
     });
   });
+
+  describe('#yisSafeInteger', () => {
+    test('returns true if number is safely whole', () => {
+      Number.isSafeInteger(3); // true
+      Number.isSafeInteger(2 ** 53); // false
+      Number.isSafeInteger(2 ** 53 - 1); // true
+      Number.isSafeInteger(NaN); // false
+      Number.isSafeInteger(Infinity); // false
+      Number.isSafeInteger('3'); // false
+      Number.isSafeInteger(3.1); // false
+      Number.isSafeInteger(3.0); // true
+    });
+  });
 });

@@ -27,3 +27,14 @@ Number.yisNaN = function yisNaN(num) {
   }
   return true;
 };
+
+Number.yisSafeInteger = function yisSafeInteger(num) {
+  if (
+    typeof num === 'number'
+    && Math.abs(num.toString(2).length) <= 53
+    && num % 1 === 0
+  ) {
+    return true;
+  }
+  return false;
+};
