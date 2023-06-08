@@ -19,3 +19,11 @@ Number.yisInteger = function yisInteger(num) {
   }
   return false;
 };
+
+Number.yisNaN = function yisNaN(num) {
+  // eslint-disable-next-line use-isnan
+  if (typeof num !== 'number' || !Object.is(num, NaN)) {
+    return false;
+  }
+  return true;
+};

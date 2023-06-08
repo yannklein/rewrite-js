@@ -46,4 +46,26 @@ describe('Number methods', () => {
       expect(Number.yisInteger(4500000000000000.1)).toBe(true);
     });
   });
+
+  describe('#yisNaN', () => {
+    test('returns true if number is whole', () => {
+      expect(Number.yisNaN(NaN)).toBe(true);
+      expect(Number.yisNaN(Number.NaN)).toBe(true);
+      expect(Number.yisNaN(0 / 0)).toBe(true);
+      expect(Number.yisNaN(37)).toBe(false);
+    });
+
+    test('returns false for non-numbers', () => {
+      expect(Number.yisNaN('NaN')).toBe(false);
+      expect(Number.yisNaN(undefined)).toBe(false);
+      expect(Number.yisNaN({})).toBe(false);
+      expect(Number.yisNaN('blabla')).toBe(false);
+      expect(Number.yisNaN(true)).toBe(false);
+      expect(Number.yisNaN(null)).toBe(false);
+      expect(Number.yisNaN('37')).toBe(false);
+      expect(Number.yisNaN('37.37')).toBe(false);
+      expect(Number.yisNaN('')).toBe(false);
+      expect(Number.yisNaN(' ')).toBe(false);
+    });
+  });
 });
