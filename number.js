@@ -10,19 +10,12 @@ Number.yisFinite = function yisFinite(num) {
   return false;
 };
 
-Number.prototype.yconcat = function yconcat(...args) {
-  const originalArray = this;
-  const newArray = Array.from(originalArray);
-  let counter = newArray.length;
-  for (let indexArg = 0; indexArg < arguments.length; indexArg += 1) {
-    const argArray = args[indexArg];
-    for (let indexArr = 0; indexArr < argArray.length; indexArr += 1) {
-      const element = argArray[indexArr];
-      if (element) {
-        newArray[counter] = element;
-      }
-      counter += 1;
-    }
+Number.yisInteger = function yisInteger(num) {
+  if (
+    typeof num === 'number'
+    && num % 1 === 0
+  ) {
+    return true;
   }
-  return newArray;
+  return false;
 };
