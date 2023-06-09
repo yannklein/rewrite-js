@@ -97,18 +97,19 @@ describe('Number methods', () => {
 
   describe('#yparseInt', () => {
     test('returns true if number is whole', () => {
-      expect(Number.parseInt('2', 10)).toBe(2);
-      expect(Number.parseInt('23', 10)).toBe(23);
-      expect(Number.parseInt('3.0', 10)).toBe(3);
-      expect(Number.parseInt('4.5', 10)).toBe(4);
-      expect(Number.parseInt('0004.5', 10)).toBe(4);
-      expect(Number.parseInt('4.5asdfasd', 10)).toBe(4);
-      expect(Number.parseInt('asd4.5', 10)).toBe(NaN);
-      expect(Number.parseInt('101', 2)).toBe(5);
-      expect(Number.parseInt('1000', 16)).toBe(4096);
-      expect(Number.parseInt('100', 36)).toBe(1296);
+      expect(Number.yparseInt('2', 10)).toBe(2);
+      expect(Number.yparseInt('23', 10)).toBe(23);
+      expect(Number.yparseInt('3.0', 10)).toBe(3);
+      expect(Number.yparseInt('4.5', 10)).toBe(4);
+      expect(Number.yparseInt('0004.5', 10)).toBe(4);
+      expect(Number.yparseInt('4.5asdfasd', 10)).toBe(4);
+      expect(Number.yparseInt('asd4.5', 10)).toBe(NaN);
+      expect(Number.yparseInt('101', 2)).toBe(5);
+      expect(Number.yparseInt('1000', 16)).toBe(4096);
+      expect(Number.yparseInt('100', 36)).toBe(1296);
       // eslint-disable-next-line radix
-      expect(Number.parseInt('100', 42)).toBe(NaN);
+      expect(Number.yparseInt('100', 42)).toBe(NaN);
+      expect(Number.yparseInt('100', 1)).toBe(NaN);
     });
   });
 });

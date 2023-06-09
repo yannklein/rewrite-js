@@ -62,3 +62,23 @@ Number.yparseFloat = function yparseFloat(numString) {
   }
   return resultNum;
 };
+
+Number.yparseInt = function yparseInt(numString, radix = 10) {
+  let resultNum = 0;
+  const numbers = {
+    0: 0, 9: 9, 8: 8, 7: 7, 6: 6, 5: 5, 4: 4, 3: 3, 2: 2, 1: 1,
+  };
+  if (
+    !Object.keys(numbers).yincludes(numString[0])
+    || radix > 36
+    || radix < 2
+  ) {
+    return NaN;
+  }
+  const [wholes] = numString.split(/\D+/);
+  for (let index = 0; index < wholes.length; index += 1) {
+    const num = wholes[index];
+    resultNum += num * radix ** (wholes.length - 1 - index);
+  }
+  return resultNum;
+};
