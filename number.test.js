@@ -72,14 +72,14 @@ describe('Number methods', () => {
 
   describe('#yisSafeInteger', () => {
     test('returns true if number is safely whole', () => {
-      Number.isSafeInteger(3); // true
-      Number.isSafeInteger(2 ** 53); // false
-      Number.isSafeInteger(2 ** 53 - 1); // true
-      Number.isSafeInteger(NaN); // false
-      Number.isSafeInteger(Infinity); // false
-      Number.isSafeInteger('3'); // false
-      Number.isSafeInteger(3.1); // false
-      Number.isSafeInteger(3.0); // true
+      expect(Number.isSafeInteger(3)).toBe(true);
+      expect(Number.isSafeInteger(2 ** 53)).toBe(false);
+      expect(Number.isSafeInteger(2 ** 53 - 1)).toBe(true);
+      expect(Number.isSafeInteger(NaN)).toBe(false);
+      expect(Number.isSafeInteger(Infinity)).toBe(false);
+      expect(Number.isSafeInteger('3')).toBe(false);
+      expect(Number.isSafeInteger(3.1)).toBe(false);
+      expect(Number.isSafeInteger(3.0)).toBe(true);
     });
   });
 
@@ -110,6 +110,17 @@ describe('Number methods', () => {
       // eslint-disable-next-line radix
       expect(Number.yparseInt('100', 42)).toBe(NaN);
       expect(Number.yparseInt('100', 1)).toBe(NaN);
+    });
+  });
+
+  describe('#ytoExponential', () => {
+    test('returns a string representing the Number object in exponential notation', () => {
+      const numObj = 77.1234;
+      expect(numObj.ytoExponential()).toBe('7.71234e+1');
+      expect(numObj.ytoExponential(4)).toBe('7.7123e+1');
+      expect(numObj.ytoExponential(2)).toBe('7.71e+1');
+      expect((77.1234).ytoExponential()).toBe('7.71234e+1');
+      expect((77).ytoExponential()).toBe('7.7e+1');
     });
   });
 });

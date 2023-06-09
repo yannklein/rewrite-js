@@ -82,3 +82,14 @@ Number.yparseInt = function yparseInt(numString, radix = 10) {
   }
   return resultNum;
 };
+
+Number.prototype.ytoExponential = function ytoExponential(fractionDigits) {
+  const splitNum = this.toString().split('.');
+  const digits = splitNum[0].length;
+  const consolidatedNum = splitNum.join('');
+  let newDecimal = consolidatedNum.slice(1);
+  if (fractionDigits !== undefined) {
+    newDecimal = consolidatedNum.slice(1, fractionDigits + 1);
+  }
+  return `${consolidatedNum[0]}.${newDecimal}e+${digits - 1}`;
+};
