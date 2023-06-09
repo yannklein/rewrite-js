@@ -1,3 +1,5 @@
+require('./array');
+
 /* eslint-disable no-extend-native */
 Number.yisFinite = function yisFinite(num) {
   if (
@@ -31,10 +33,32 @@ Number.yisNaN = function yisNaN(num) {
 Number.yisSafeInteger = function yisSafeInteger(num) {
   if (
     typeof num === 'number'
-    && Math.abs(num.toString(2).length) <= 53
+    && Math.abs(num.ytoString(2).length) <= 53
     && num % 1 === 0
   ) {
     return true;
   }
   return false;
+};
+
+Number.yparseFloat = function yparseFloat(numString) {
+  let resultNum = 0;
+  const numbers = {
+    0: 0, 9: 9, 8: 8, 7: 7, 6: 6, 5: 5, 4: 4, 3: 3, 2: 2, 1: 1,
+  };
+  if (!Object.keys(numbers).yincludes(numString[0])) {
+    return NaN;
+  }
+  const [wholes, decimals] = numString.split(/\D+/);
+  for (let index = 0; index < wholes.length; index += 1) {
+    const num = wholes[index];
+    resultNum += num * 10 ** (wholes.length - 1 - index);
+  }
+  if (decimals) {
+    for (let index = 0; index < decimals.length; index += 1) {
+      const num = decimals[index];
+      resultNum += num / 10 ** (index + 1);
+    }
+  }
+  return resultNum;
 };

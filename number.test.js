@@ -81,4 +81,16 @@ describe('Number methods', () => {
       Number.isSafeInteger(3.0); // true
     });
   });
+
+  describe('#yparseFloat', () => {
+    test('returns true if number is whole', () => {
+      expect(Number.yparseFloat('2')).toBe(2);
+      expect(Number.yparseFloat('23')).toBe(23);
+      expect(Number.yparseFloat('3.0')).toBe(3);
+      expect(Number.yparseFloat('4.5')).toBe(4.5);
+      expect(Number.yparseFloat('0004.5')).toBe(4.5);
+      expect(Number.yparseFloat('4.5asdfasd')).toBe(4.5);
+      expect(Number.yparseFloat('asd4.5')).toBe(NaN);
+    });
+  });
 });
