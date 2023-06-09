@@ -1,3 +1,4 @@
+/* eslint-disable prefer-numeric-literals */
 /* eslint-disable no-loss-of-precision */
 require('./number');
 
@@ -91,6 +92,23 @@ describe('Number methods', () => {
       expect(Number.yparseFloat('0004.5')).toBe(4.5);
       expect(Number.yparseFloat('4.5asdfasd')).toBe(4.5);
       expect(Number.yparseFloat('asd4.5')).toBe(NaN);
+    });
+  });
+
+  describe('#yparseInt', () => {
+    test('returns true if number is whole', () => {
+      expect(Number.parseInt('2', 10)).toBe(2);
+      expect(Number.parseInt('23', 10)).toBe(23);
+      expect(Number.parseInt('3.0', 10)).toBe(3);
+      expect(Number.parseInt('4.5', 10)).toBe(4);
+      expect(Number.parseInt('0004.5', 10)).toBe(4);
+      expect(Number.parseInt('4.5asdfasd', 10)).toBe(4);
+      expect(Number.parseInt('asd4.5', 10)).toBe(NaN);
+      expect(Number.parseInt('101', 2)).toBe(5);
+      expect(Number.parseInt('1000', 16)).toBe(4096);
+      expect(Number.parseInt('100', 36)).toBe(1296);
+      // eslint-disable-next-line radix
+      expect(Number.parseInt('100', 42)).toBe(NaN);
     });
   });
 });
