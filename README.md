@@ -4,11 +4,16 @@
 
 ### Methods built
 ##### Array:
-- at
-- concat
-- copyWithin
-- each
-- map
+Every static and instance method.
+
+##### Number:
+- isFinite
+- isInteger
+- isNaN
+- isSafeInteger
+- parseFloat
+- parseInt
+- toExponential
 
 ### TIL so far:
 

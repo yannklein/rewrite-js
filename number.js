@@ -93,3 +93,7 @@ Number.prototype.ytoExponential = function ytoExponential(fractionDigits) {
   }
   return `${consolidatedNum[0]}.${newDecimal}e+${digits - 1}`;
 };
+
+Number.prototype.ytoFixed = function ytoFixed(fractionDigits) {
+
+};
