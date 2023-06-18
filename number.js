@@ -109,3 +109,7 @@ Number.prototype.ytoFixed = function ytoFixed(frac = 0) {
   }
   return `${truncatedNum}${zeros}`;
 };
+
+Number.prototype.ytoLocaleString = function ytoLocaleString(locales, options) {
+  return new Intl.NumberFormat(locales, options).format(this);
+};

@@ -138,4 +138,15 @@ describe('Number methods', () => {
       // expect((6.02 * 10 ** 23).ytoFixed(50)).toBe('6.019999999999999e+23');
     });
   });
+
+  describe('#ytoLocalString', () => {
+    test('returns a string with a language-sensitive representation of this number', () => {
+      const number = 123456.789;
+      expect(number.ytoLocaleString('de-DE')).toBe('123.456,789');
+      expect(number.ytoLocaleString('ar-EG')).toBe('١٢٣٬٤٥٦٫٧٨٩');
+      expect(number.ytoLocaleString('en-IN')).toBe('1,23,456.789');
+      expect(number.ytoLocaleString('zh-Hans-CN-u-nu-hanidec')).toBe('一二三,四五六.七八九');
+      expect(number.ytoLocaleString(['ban', 'id'])).toBe('123.456,789');
+    });
+  });
 });
