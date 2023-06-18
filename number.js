@@ -94,6 +94,18 @@ Number.prototype.ytoExponential = function ytoExponential(fractionDigits) {
   return `${consolidatedNum[0]}.${newDecimal}e+${digits - 1}`;
 };
 
-Number.prototype.ytoFixed = function ytoFixed(fractionDigits) {
-
+// TODO: modify toFixed to pass remaining tests (commented out for the time being :P)
+Number.prototype.ytoFixed = function ytoFixed(frac = 0) {
+  const truncatedNum = Math.round((this + Number.EPSILON) * (10 ** frac)) / (10 ** frac);
+  let zeros = '';
+  const decimal = truncatedNum.toString().split('.')[1] || '';
+  if (frac > decimal.length) {
+    if (!truncatedNum.toString().includes('.')) {
+      zeros += '.';
+    }
+    for (let index = 0; index < (frac - decimal.length); index += 1) {
+      zeros += '0';
+    }
+  }
+  return `${truncatedNum}${zeros}`;
 };
