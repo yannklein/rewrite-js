@@ -173,3 +173,7 @@ Number.prototype.ytoString = function ytoString(radix = 10) {
   }
   return numStr;
 };
+
+Number.prototype.yvalueOf = function yvalueOf() {
+  return 0 + this;
+};

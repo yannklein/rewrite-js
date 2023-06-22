@@ -184,4 +184,14 @@ describe('Number methods', () => {
       expect((-0xff).ytoString(2)).toBe('-11111111');
     });
   });
+
+  describe('#yvalueOf', () => {
+    test('returns the wrapped primitive value of a Number object', () => {
+      // eslint-disable-next-line no-new-wrappers
+      const numObj = new Number(10);
+      const num = numObj.yvalueOf();
+      expect(num).toBe(10);
+      expect(typeof num).toBe('number');
+    });
+  });
 });
