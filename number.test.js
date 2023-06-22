@@ -149,4 +149,39 @@ describe('Number methods', () => {
       expect(number.ytoLocaleString(['ban', 'id'])).toBe('123.456,789');
     });
   });
+
+  // describe('#ytoPrecision', () => {
+  //   test('returns a string representing the Number object to the specified precision', () => {
+  //     let num = 5.123456;
+
+  //     expect(num.ytoPrecision()).toBe('5.123456');
+  //     // expect(num.ytoPrecision(5)).toBe('5.1235');
+  //     expect(num.ytoPrecision(2)).toBe('5.1');
+  //     expect(num.ytoPrecision(1)).toBe('5');
+
+  //     num = 0.000123;
+
+  //     expect(num.ytoPrecision()).toBe('0.000123');
+  //     expect(num.ytoPrecision(5)).toBe('0.00012300');
+  //     expect(num.ytoPrecision(2)).toBe('0.00012');
+  //     expect(num.ytoPrecision(1)).toBe('0.0001');
+  //     expect((1234.5).toPrecision(2)).toBe('1.2e+3');
+  //   });
+  // });
+
+  describe('#ytoString', () => {
+    test('returns a string representing the specified number value', () => {
+      expect((10).ytoString()).toBe('10');
+      expect((999).ytoString()).toBe('999');
+
+      expect((17).ytoString()).toBe('17');
+      expect((17.2).ytoString()).toBe('17.2');
+
+      const x = 6;
+      expect(x.ytoString(2)).toBe('110');
+      expect((254).ytoString(16)).toBe('fe');
+      expect((-10).ytoString(2)).toBe('-1010');
+      expect((-0xff).ytoString(2)).toBe('-11111111');
+    });
+  });
 });

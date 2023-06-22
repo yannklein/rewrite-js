@@ -113,3 +113,63 @@ Number.prototype.ytoFixed = function ytoFixed(frac = 0) {
 Number.prototype.ytoLocaleString = function ytoLocaleString(locales, options) {
   return new Intl.NumberFormat(locales, options).format(this);
 };
+
+// Number.prototype.ytoPrecision = function ytoPrecision(precision) {
+//   const numStr = `${this}`;
+//   if (precision === undefined) {
+//     return numStr;
+//   }
+//   if (numStr.includes('.')) {
+//     let slicedNum = numStr.slice(0, precision + 1);
+//     if (slicedNum[slicedNum.length - 1] === '.') {
+//       slicedNum = slicedNum.slice(0, -1);
+//     }
+//     return slicedNum;
+//   }
+//   return numStr;
+// };
+
+Number.prototype.ytoString = function ytoString(radix = 10) {
+  // hexadecimal converter
+  const numToHexa = '0123456789abcdefghijklmnopqrstuvwxyz'.split('');
+  let numStr = '';
+  // find the biggest digit
+  let maxDigit = 0;
+  let remainder = Math.abs(this);
+  while (remainder >= radix ** (maxDigit + 1)) {
+    maxDigit += 1;
+  }
+  // iterate over each digit from the biggest digit
+  // eslint-disable-next-line for-direction
+  // for (let digit = maxDigit; digit >= 0; digit -= 1) {
+  let digit = maxDigit;
+  while (remainder > 0 || digit >= 0) {
+    // iterate for unit from radix - 1 to 0
+    // eslint-disable-next-line for-direction
+    for (let unit = radix - 1; unit >= 0; unit -= 1) {
+      // if unit * radix**digit smaller than continue
+      if (remainder >= unit * (radix ** digit)) {
+        // num -= unit * radix, store unit * radix in numStr and break
+        // add a . if we start taking care of decimal nums
+        if (remainder < 1 && remainder > 0 && !numStr.includes('.')) {
+          numStr += '.';
+        }
+        // get decimal length to round floating point nums with endless digit
+        const decimalLen = `${remainder}`.split('.')[1]?.length || 0;
+        // substract the unit * (radix ** digit) to remainder
+        remainder -= unit * (radix ** digit);
+        // round remainder if endless decimal
+        remainder = (remainder).toFixed(decimalLen);
+        // add unit to the str number
+        numStr += numToHexa[unit];
+        break;
+      }
+    }
+    digit -= 1;
+  }
+  // manage negative nums
+  if (this < 0) {
+    numStr = `-${numStr}`;
+  }
+  return numStr;
+};
