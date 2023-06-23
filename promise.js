@@ -7,12 +7,14 @@ const yPromiseProto = {
     if (!isMainThread) {
       parentPort.postMessage(this.callback.bind(null, fct));
     }
+    return this;
   },
   ycatch(fct) {
     // setTimeout(() => this.callback(null, fct), 0);
     if (!isMainThread) {
       parentPort.postMessage(this.callback.bind(null, null, fct));
     }
+    return this;
   },
 };
 

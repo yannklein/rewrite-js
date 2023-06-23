@@ -1,5 +1,3 @@
-/* eslint-disable prefer-numeric-literals */
-/* eslint-disable no-loss-of-precision */
 const YPromise = require('./promise');
 
 describe('Number methods', () => {
@@ -21,12 +19,17 @@ describe('Number methods', () => {
       expect(typeof promiseSuccess).toBe('object');
       expect(typeof promiseReject).toBe('object');
 
-      promiseSuccess.ythen((good) => {
-        expect(good).toBe('good');
-        promiseReject.ycatch((bad) => {
-          expect(bad).toBe('bad');
+      promiseSuccess
+        .ythen((good) => {
+          expect(good).toBe('good');
+
+          promiseReject.ycatch((bad) => {
+            expect(bad).toBe('bad');
+          });
+        })
+        .ythen((good) => {
+          expect(good).toBe('good');
         });
-      });
     });
   });
 
