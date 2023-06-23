@@ -21,12 +21,36 @@ describe('Number methods', () => {
       expect(typeof promiseSuccess).toBe('object');
       expect(typeof promiseReject).toBe('object');
 
-      promiseSuccess.then((good) => {
+      promiseSuccess.ythen((good) => {
         expect(good).toBe('good');
-        promiseReject.catch((bad) => {
+        promiseReject.ycatch((bad) => {
           expect(bad).toBe('bad');
         });
       });
     });
   });
+
+  describe('#yresolve', () => {
+    test('resolves a given value to a Promise', () => {
+      const promise1 = YPromise.yresolve(123);
+
+      promise1.ythen((value) => {
+        expect(value).toBe(123);
+      });
+    });
+  });
+
+  // describe('#yall', () => {
+  //   test('takes an iterable of promises as input and returns a single Promise', () => {
+  //     const promise1 = YPromise.resolve(3);
+  //     const promise2 = 42;
+  //     const promise3 = new YPromise((resolve) => {
+  //       setTimeout(resolve, 100, 'foo');
+  //     });
+
+  //     Promise.all([promise1, promise2, promise3]).then((values) => {
+  //       expect(values).toEqual([3, 42, 'foo']);
+  //     });
+  //   });
+  // });
 });
