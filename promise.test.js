@@ -20,14 +20,14 @@ describe('Number methods', () => {
       expect(typeof promiseReject).toBe('object');
 
       promiseSuccess
-        .ythen((good) => {
+        .then((good) => {
           expect(good).toBe('good');
 
-          promiseReject.ycatch((bad) => {
+          promiseReject.catch((bad) => {
             expect(bad).toBe('bad');
           });
         })
-        .ythen((good) => {
+        .then((good) => {
           expect(good).toBe('good');
         });
     });
@@ -37,23 +37,23 @@ describe('Number methods', () => {
     test('resolves a given value to a Promise', () => {
       const promise1 = YPromise.yresolve(123);
 
-      promise1.ythen((value) => {
+      promise1.then((value) => {
         expect(value).toBe(123);
       });
     });
   });
 
-  // describe('#yall', () => {
-  //   test('takes an iterable of promises as input and returns a single Promise', () => {
-  //     const promise1 = YPromise.resolve(3);
-  //     const promise2 = 42;
-  //     const promise3 = new YPromise((resolve) => {
-  //       setTimeout(resolve, 100, 'foo');
-  //     });
+  describe('#yall', () => {
+    test('takes an iterable of promises as input and returns a single Promise', async () => {
+      const promise1 = YPromise.yresolve(3);
+      const promise2 = 42;
+      const promise3 = new YPromise((resolve) => {
+        setTimeout(resolve, 100, 'foo');
+      });
 
-  //     Promise.all([promise1, promise2, promise3]).then((values) => {
-  //       expect(values).toEqual([3, 42, 'foo']);
-  //     });
-  //   });
-  // });
+      YPromise.yall([promise1, promise2, promise3]).then((values) => {
+        expect(values).toEqual([3, 42, 'foo']);
+      });
+    });
+  });
 });
